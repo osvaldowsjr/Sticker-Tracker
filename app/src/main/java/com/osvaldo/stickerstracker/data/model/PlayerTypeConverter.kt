@@ -1,10 +1,8 @@
 package com.osvaldo.stickerstracker.data.model
 
-import android.R.attr
 import androidx.room.TypeConverter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-
 
 class PlayerTypeConverter {
     val gson = Gson()
