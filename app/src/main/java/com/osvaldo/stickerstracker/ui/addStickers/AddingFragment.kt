@@ -51,6 +51,7 @@ class AddingFragment : Fragment(R.layout.adding_fragment), AdapterView.OnItemSel
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
         addingViewModel.allNations.observe(viewLifecycleOwner){
             listAdapter.submitList(it[position].listOfPlayers)
+            binding.imageFlag.setImageResource(it[position].nationFlag)
         }
     }
 
