@@ -137,10 +137,19 @@ private fun createFifaList(list: ArrayList<Player>) {
 
 private fun createNationList(nationEnum: NationEnum, list: ArrayList<Player>){
     for (i in 1..20){
-        list.add(
-            Player(
-                number = "$nationEnum $i"
+        if(i < 10){
+            list.add(
+                Player(
+                    number = "$nationEnum 0$i"
+                )
             )
-        )
+        }else{
+            list.add(
+                Player(
+                    number = "$nationEnum $i"
+                )
+            )
+        }
+
     }
 }

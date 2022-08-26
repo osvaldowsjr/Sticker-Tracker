@@ -11,7 +11,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-@Database(entities = [Nation::class], version = 1, exportSchema = false)
+@Database(entities = [Nation::class], version = 2, exportSchema = false)
 @TypeConverters(PlayerTypeConverter::class)
 abstract class NationsDatabase : RoomDatabase() {
     abstract val nationDao: NationDao

@@ -5,6 +5,7 @@ import com.osvaldo.stickerstracker.data.dataSource.NationDataSource
 import com.osvaldo.stickerstracker.data.dataSource.NationDataSourceImpl
 import com.osvaldo.stickerstracker.data.repository.NationRepository
 import com.osvaldo.stickerstracker.data.repository.NationRepositoryImpl
+import com.osvaldo.stickerstracker.ui.addStickers.AddingViewModel
 import com.osvaldo.stickerstracker.ui.main.MainViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -20,4 +21,5 @@ val dataModule = module {
     single<NationDataSource> { NationDataSourceImpl(get()) }
     single<NationRepository> { NationRepositoryImpl(get()) }
     viewModel { MainViewModel(get()) }
+    viewModel { AddingViewModel(get()) }
 }

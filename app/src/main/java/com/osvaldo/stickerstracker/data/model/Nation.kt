@@ -1,6 +1,7 @@
 package com.osvaldo.stickerstracker.data.model
 
 import androidx.room.Entity
+import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 
@@ -11,5 +12,14 @@ data class Nation(
     val nationName : String,
     val nationFlag : Int,
     val nationEnum: NationEnum,
-    val listOfPlayers : List<Player>
-)
+    var listOfPlayers : List<Player>,
+
+){
+    @Ignore
+    var isPlayerListVisible : Boolean = false
+
+    override fun toString(): String {
+        return nationEnum.toString()
+    }
+
+}

@@ -1,4 +1,4 @@
-package com.osvaldo.stickerstracker.ui.main.adapter.nations
+package com.osvaldo.stickerstracker.ui.stickerslist.adapter.nations
 
 import androidx.recyclerview.widget.DiffUtil
 import com.osvaldo.stickerstracker.data.model.Nation

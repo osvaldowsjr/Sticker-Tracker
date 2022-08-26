@@ -1,4 +1,4 @@
-package com.osvaldo.stickerstracker.ui.main.adapter.stickers
+package com.osvaldo.stickerstracker.ui.stickerslist.adapter.stickers
 
 import androidx.recyclerview.widget.DiffUtil
 import com.osvaldo.stickerstracker.data.model.Player

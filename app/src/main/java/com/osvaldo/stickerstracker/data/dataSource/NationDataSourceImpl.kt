@@ -2,6 +2,7 @@ package com.osvaldo.stickerstracker.data.dataSource
 
 import com.osvaldo.stickerstracker.appDatabase.NationDao
 import com.osvaldo.stickerstracker.data.model.Nation
+import com.osvaldo.stickerstracker.data.model.NationEnum
 import kotlinx.coroutines.flow.Flow
 
 class NationDataSourceImpl(private val nationDao: NationDao) : NationDataSource {
@@ -10,5 +11,13 @@ class NationDataSourceImpl(private val nationDao: NationDao) : NationDataSource 
 
     override suspend fun updateNation(nation: Nation) {
         nationDao.updateNation(nation)
+    }
+
+    override suspend fun selectNation(nationEnum: String): Nation {
+        return nationDao.selectNation(nationEnum)
+    }
+
+    override suspend fun clearAll() {
+        nationDao.nukeTable()
     }
 }

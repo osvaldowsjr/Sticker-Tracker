@@ -39,6 +39,8 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/players_list"
         android:visibility="gone"
+        tools:visibility="visible"
+        android:layout_marginHorizontal="16dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/item_layout" />
