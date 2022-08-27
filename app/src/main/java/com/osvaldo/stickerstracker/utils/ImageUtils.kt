@@ -37,8 +37,6 @@ object ImageUtils {
 
         val planes = image.planes
 
-        // Because of the variable row stride it's not possible to know in
-        // advance the actual necessary dimensions of the yuv planes.
         val yuvBytes = planes.map { plane ->
             val buffer = plane.buffer
             val yuvBytes = ByteArray(buffer.capacity())
@@ -100,16 +98,10 @@ object ImageUtils {
         nV -= 128
         nY = nY.coerceAtLeast(0)
 
-        // This is the floating point equivalent. We do the conversion in integer
-        // because some Android devices do not have floating point in hardware.
-        // nR = (int)(1.164 * nY + 2.018 * nU);
-        // nG = (int)(1.164 * nY - 0.813 * nV - 0.391 * nU);
-        // nB = (int)(1.164 * nY + 1.596 * nV);
         var nR = 1192 * nY + 1634 * nV
         var nG = 1192 * nY - 833 * nV - 400 * nU
         var nB = 1192 * nY + 2066 * nU
 
-        // Clamp the values before normalizing them to 8 bits.
         nR = nR.coerceIn(CHANNEL_RANGE) shr 10 and 0xff
         nG = nG.coerceIn(CHANNEL_RANGE) shr 10 and 0xff
         nB = nB.coerceIn(CHANNEL_RANGE) shr 10 and 0xff

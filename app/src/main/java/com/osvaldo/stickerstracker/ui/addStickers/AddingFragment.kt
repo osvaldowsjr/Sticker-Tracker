@@ -17,7 +17,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class AddingFragment : Fragment(R.layout.adding_fragment), AdapterView.OnItemSelectedListener {
     private val binding: AddingFragmentBinding by viewBinding(AddingFragmentBinding::bind)
-    private val addingViewModel : AddingViewModel by viewModel()
+    private val addingViewModel: AddingViewModel by viewModel()
     private val listAdapter = AddingAdapter()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -26,25 +26,22 @@ class AddingFragment : Fragment(R.layout.adding_fragment), AdapterView.OnItemSel
         binding.toolbar.setEndIconVisibility(View.GONE)
 
         binding.toolbar.setStartIconOnClickListener {
-            startActivity(Intent(requireContext(),CameraActivity::class.java))
+            startActivity(Intent(requireContext(), CameraActivity::class.java))
         }
 
-        addingViewModel.allNations.observe(viewLifecycleOwner){
+        binding.updateButton.setOnClickListener {
+            addingViewModel.updateNation()
+        }
+
+        addingViewModel.allNations.observe(viewLifecycleOwner) { listOfNations ->
             val arrayAdapter = ArrayAdapter(
                 requireContext(),
                 org.koin.android.R.layout.support_simple_spinner_dropdown_item,
-                it
+                listOfNations
             )
             binding.spinnerNation.apply {
                 this.adapter = arrayAdapter
                 onItemSelectedListener = this@AddingFragment
-            }
-            listAdapter.submitList(it[0].listOfPlayers)
-        }
-
-        binding.updateButton.setOnClickListener {
-            addingViewModel.allNations.value?.forEach {
-                addingViewModel.updateNation(it)
             }
         }
     }
@@ -58,7 +55,7 @@ class AddingFragment : Fragment(R.layout.adding_fragment), AdapterView.OnItemSel
     }
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-        addingViewModel.allNations.observe(viewLifecycleOwner){
+        addingViewModel.allNations.observe(viewLifecycleOwner) {
             listAdapter.submitList(it[position].listOfPlayers)
             binding.imageFlag.setImageResource(it[position].nationFlag)
         }

@@ -11,7 +11,9 @@ import kotlinx.coroutines.launch
 class AddingViewModel(private val repository: NationRepository) : ViewModel() {
     val allNations : LiveData<List<Nation>> = repository.allNation.asLiveData()
 
-    fun updateNation(nation: Nation) = viewModelScope.launch {
-        repository.updateNation(nation)
+    fun updateNation() = viewModelScope.launch {
+        allNations.value?.forEach {
+            repository.updateNation(it)
+        }
     }
 }

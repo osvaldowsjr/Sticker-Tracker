@@ -1,4 +1,4 @@
-package com.google.mlkit.codelab.translate.util
+package com.osvaldo.stickerstracker.utils
 
 import java.util.concurrent.Executor
 import java.util.concurrent.atomic.AtomicBoolean
