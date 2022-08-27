@@ -35,7 +35,7 @@ enum class NationEnum {
     GHA,
     URU,
     KOR,
-    FWC,
+    FWC
 }
 
 fun NationEnum.getFlag(): Int {

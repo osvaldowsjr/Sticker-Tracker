@@ -27,7 +27,11 @@ class NationRepositoryImpl(private val dataSource: NationDataSource) : NationRep
     }
 
     override suspend fun indexPlayerToAdd(nationString: String): Int = withContext(Dispatchers.IO) {
-        nationString.substring(4).toIntOrNull()?.minus(1) ?: Int.MIN_VALUE
+        if (nationString.contains("FWC")){
+            nationString.substring(4).toIntOrNull() ?: Int.MIN_VALUE
+        }else{
+            nationString.substring(4).toIntOrNull()?.minus(1) ?: Int.MIN_VALUE
+        }
     }
 
     override suspend fun updateListOfPlayers(listOfPlayer: List<Player>): Unit =

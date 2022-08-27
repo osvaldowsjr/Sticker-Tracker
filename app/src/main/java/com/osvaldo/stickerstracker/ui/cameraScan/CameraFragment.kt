@@ -75,6 +75,19 @@ class CameraFragment : CameraFunctions() {
     }
 
     private fun setupObserver() {
+        cameraViewModel.nationName.observe(viewLifecycleOwner) { binding.nationName.text = it }
+        cameraViewModel.nationEnum.observe(viewLifecycleOwner) {
+            binding.imageFlag.setImageResource(it)
+        }
+        cameraViewModel.stickerNumber.observe(viewLifecycleOwner){
+            binding.stickerId.text = it
+        }
+        cameraViewModel.isAdded.observe(viewLifecycleOwner){
+            if (it)
+                binding.isAdded.visibility = View.VISIBLE
+            else
+                binding.isAdded.visibility = View.GONE
+        }
         cameraViewModel.sourceText.observe(viewLifecycleOwner) { binding.srcText.setText(it) }
     }
 
