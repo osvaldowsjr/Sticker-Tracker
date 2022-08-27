@@ -48,6 +48,16 @@
         app:layout_constraintTop_toBottomOf="@id/overlay" />
 
     <Button
+        android:id="@+id/buttonAdd"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="Adicionar"
+        app:layout_constraintTop_toBottomOf="@id/srcText"
+        app:layout_constraintEnd_toStartOf="@+id/middle_verical"
+        app:layout_constraintStart_toStartOf="@+id/middle_verical" />
+
+    <Button
         android:id="@+id/button_stop"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

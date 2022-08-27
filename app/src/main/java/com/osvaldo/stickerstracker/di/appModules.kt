@@ -24,5 +24,5 @@ val dataModule = module {
     single<NationRepository> { NationRepositoryImpl(get()) }
     viewModel { MainViewModel(get()) }
     viewModel { AddingViewModel(get()) }
-    viewModel { CameraViewModel(androidApplication()) }
+    viewModel { CameraViewModel(get()) }
 }

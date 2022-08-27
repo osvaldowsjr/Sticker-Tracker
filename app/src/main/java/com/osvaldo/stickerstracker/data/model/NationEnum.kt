@@ -35,11 +35,11 @@ enum class NationEnum {
     GHA,
     URU,
     KOR,
-    FWC
+    FWC,
 }
 
-fun NationEnum.getFlag() : Int{
-    return when(this){
+fun NationEnum.getFlag(): Int {
+    return when (this) {
         NationEnum.QAT -> R.drawable.qat
         NationEnum.ECU -> R.drawable.ecu
         NationEnum.SEN -> R.drawable.sen
@@ -73,12 +73,11 @@ fun NationEnum.getFlag() : Int{
         NationEnum.URU -> R.drawable.uru
         NationEnum.KOR -> R.drawable.kor
         NationEnum.FWC -> R.drawable.fwc
-
     }
 }
 
-fun NationEnum.getName() : String{
-    return when(this){
+fun NationEnum.getName(): String {
+    return when (this) {
         NationEnum.QAT -> "Qatar"
         NationEnum.ECU -> "Ecuador"
         NationEnum.SEN -> "Senegal"
@@ -115,18 +114,17 @@ fun NationEnum.getName() : String{
     }
 }
 
-fun NationEnum.generateListOfPlayers() : List<Player>{
+fun NationEnum.generateListOfPlayers(): List<Player> {
     val list = ArrayList<Player>()
-    if (this == NationEnum.FWC){
-        createFifaList(list)
-    }else{
-        createNationList(this,list)
+    when(this){
+        NationEnum.FWC -> createFifaList(list)
+        else -> createNationList(this,list)
     }
     return list
 }
 
 private fun createFifaList(list: ArrayList<Player>) {
-    for (i in 0..29){
+    for (i in 0..29) {
         list.add(
             Player(
                 number = "FWC $i"
@@ -135,15 +133,15 @@ private fun createFifaList(list: ArrayList<Player>) {
     }
 }
 
-private fun createNationList(nationEnum: NationEnum, list: ArrayList<Player>){
-    for (i in 1..20){
-        if(i < 10){
+private fun createNationList(nationEnum: NationEnum, list: ArrayList<Player>) {
+    for (i in 1..20) {
+        if (i < 10) {
             list.add(
                 Player(
                     number = "$nationEnum 0$i"
                 )
             )
-        }else{
+        } else {
             list.add(
                 Player(
                     number = "$nationEnum $i"

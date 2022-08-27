@@ -1,6 +1,5 @@
 package com.osvaldo.stickerstracker.utils
 
-import android.content.Context
 import android.graphics.Rect
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.ImageProxy

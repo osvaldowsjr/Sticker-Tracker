@@ -15,14 +15,20 @@ class NationRepositoryImpl(private val dataSource: NationDataSource) : NationRep
         dataSource.updateNation(nation)
     }
 
-    override suspend fun clearAll() = withContext(Dispatchers.IO){
-        dataSource.clearAll()
+    override suspend fun selectNation(nationString: String): Nation = withContext(Dispatchers.IO){
+        dataSource.selectNation(nationString.substring(0,3).trim())
     }
 
-    override suspend fun updateListOfPlayers(listOfPlayer: List<Player>) = withContext(Dispatchers.IO){
+    override suspend fun indexPlayerToAdd(nationString: String): Int = withContext(Dispatchers.IO) {
+        nationString.substring(4).toInt()-1
+    }
+
+    override suspend fun updateListOfPlayers(listOfPlayer: List<Player>): Unit = withContext(Dispatchers.IO){
         val nation = dataSource.selectNation(getNationByPlayer(listOfPlayer[0]))
-        nation.listOfPlayers = listOfPlayer
-        return@withContext nation
+        nation.let {
+            nation.listOfPlayers = listOfPlayer
+            updateNation(it)
+        }
     }
 
     private fun getNationByPlayer(player: Player) : String{

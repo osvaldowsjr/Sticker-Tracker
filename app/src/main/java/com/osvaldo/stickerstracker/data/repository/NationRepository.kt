@@ -6,7 +6,8 @@ import kotlinx.coroutines.flow.Flow
 
 interface NationRepository {
     val allNation : Flow<List<Nation>>
-    suspend fun updateListOfPlayers(listOfPlayer: List<Player>): Nation
+    suspend fun updateListOfPlayers(listOfPlayer: List<Player>)
     suspend fun updateNation(nation: Nation)
-    suspend fun clearAll()
+    suspend fun selectNation(nationString: String) : Nation
+    suspend fun indexPlayerToAdd(nationString: String) : Int
 }

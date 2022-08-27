@@ -2,7 +2,6 @@ package com.osvaldo.stickerstracker.data.dataSource
 
 import com.osvaldo.stickerstracker.appDatabase.NationDao
 import com.osvaldo.stickerstracker.data.model.Nation
-import com.osvaldo.stickerstracker.data.model.NationEnum
 import kotlinx.coroutines.flow.Flow
 
 class NationDataSourceImpl(private val nationDao: NationDao) : NationDataSource {
@@ -17,7 +16,4 @@ class NationDataSourceImpl(private val nationDao: NationDao) : NationDataSource 
         return nationDao.selectNation(nationEnum)
     }
 
-    override suspend fun clearAll() {
-        nationDao.nukeTable()
-    }
 }

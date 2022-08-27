@@ -10,9 +10,9 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import com.osvaldo.stickerstracker.utils.ScopedExecutor
 import com.osvaldo.stickerstracker.utils.TextAnalyzer
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import kotlin.math.abs
@@ -29,13 +29,13 @@ abstract class CameraFunctions : Fragment() {
         const val DESIRED_HEIGHT_CROP_PERCENT = 90
     }
 
-    val viewModel: CameraViewModel by activityViewModels()
-    lateinit var cameraExecutor: ExecutorService
-    lateinit var scopedExecutor: ScopedExecutor
+    val cameraViewModel: CameraViewModel by viewModel()
+    private lateinit var cameraExecutor: ExecutorService
+    private lateinit var scopedExecutor: ScopedExecutor
     var displayId: Int = -1
-    var cameraProvider: ProcessCameraProvider? = null
-    var camera: Camera? = null
-    var imageAnalyzer: ImageAnalysis? = null
+    private var cameraProvider: ProcessCameraProvider? = null
+    private var camera: Camera? = null
+    private var imageAnalyzer: ImageAnalysis? = null
 
     fun stopCamera() {
         cameraExecutor.shutdown()
@@ -79,8 +79,8 @@ abstract class CameraFunctions : Fragment() {
                 it.setAnalyzer(
                     cameraExecutor, TextAnalyzer(
                         lifecycle,
-                        viewModel.sourceText,
-                        viewModel.imageCropPercentages
+                        cameraViewModel.sourceText,
+                        cameraViewModel.imageCropPercentages
                     )
                 )
             }

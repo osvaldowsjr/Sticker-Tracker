@@ -8,5 +8,4 @@ interface NationDataSource {
     val allNations : Flow<List<Nation>>
     suspend fun updateNation(nation: Nation)
     suspend fun selectNation(nationEnum: String) : Nation
-    suspend fun clearAll()
 }

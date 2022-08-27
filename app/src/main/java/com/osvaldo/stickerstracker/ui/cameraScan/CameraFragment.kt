@@ -2,16 +2,17 @@ package com.osvaldo.stickerstracker.ui.cameraScan
 
 import android.Manifest
 import android.content.pm.PackageManager
-import android.graphics.*
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
-import android.view.SurfaceHolder
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.camera.view.PreviewView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
+import androidx.core.widget.addTextChangedListener
 import com.osvaldo.stickerstracker.R
 import kotlinx.android.synthetic.main.camera_fragment.*
 
@@ -37,6 +38,11 @@ class CameraFragment : CameraFunctions() {
         stopCamera()
     }
 
+    override fun onStart() {
+        super.onStart()
+        setupObserver()
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -51,6 +57,10 @@ class CameraFragment : CameraFunctions() {
             restartCamera(viewFinder)
         }
 
+        buttonAdd.setOnClickListener {
+            cameraViewModel.addSticker(srcText.text.toString())
+        }
+
         if (allPermissionsGranted()) {
             viewFinder.post {
                 displayId = viewFinder.display.displayId
@@ -63,11 +73,10 @@ class CameraFragment : CameraFunctions() {
         overlay.apply {
             setupOverlay()
         }
-        setupObserver()
     }
 
     private fun setupObserver(){
-        viewModel.sourceText.observe(viewLifecycleOwner) { srcText.setText(it) }
+        cameraViewModel.sourceText.observe(viewLifecycleOwner) { srcText.setText(it) }
     }
 
     override fun onRequestPermissionsResult(
