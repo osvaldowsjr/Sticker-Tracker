@@ -9,6 +9,8 @@
         <entry key="app/src/main/res/drawable/item_border.xml" value="0.1175" />
         <entry key="app/src/main/res/layout/adding_fragment.xml" value="0.24739634195963542" />
         <entry key="app/src/main/res/layout/adding_item_layout.xml" value="0.20937906901041664" />
+        <entry key="app/src/main/res/layout/camera_activity.xml" value="0.17685185185185184" />
+        <entry key="app/src/main/res/layout/camera_fragment.xml" value="0.16903533935546877" />
         <entry key="app/src/main/res/layout/custom_toolbar.xml" value="0.26010233561197915" />
         <entry key="app/src/main/res/layout/main_activity.xml" value="0.28229166666666666" />
         <entry key="app/src/main/res/layout/main_fragment.xml" value="0.28229166666666666" />

@@ -16,7 +16,27 @@ class CustomToolbar @JvmOverloads constructor(
             .inflate(R.layout.custom_toolbar,this,true)
     }
 
-    fun setPlusOnClickListener(listener: OnClickListener){
+    fun setStartIconVisibility(visibility : Int){
+        swap_stickers.visibility = visibility
+    }
+
+    fun setEndIconVisibility(visibility: Int){
+        add_stickers.visibility = visibility
+    }
+
+    fun setEndIconOnClickListener(listener: OnClickListener){
         add_stickers.setOnClickListener(listener)
+    }
+
+    fun setStartIconOnClickListener(listener: OnClickListener){
+        swap_stickers.setOnClickListener(listener)
+    }
+
+    fun setEndIconDrawable(id: Int){
+        add_stickers.setImageResource(id)
+    }
+
+    fun setStartIconDrawable(id: Int){
+        swap_stickers.setImageResource(id)
     }
 }

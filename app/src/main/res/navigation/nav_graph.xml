@@ -20,5 +20,14 @@
         android:id="@+id/addingFragment"
         android:name="com.osvaldo.stickerstracker.ui.addStickers.AddingFragment"
         android:label="AddingFragment"
-        tools:layout="@layout/adding_fragment"/>
+        tools:layout="@layout/adding_fragment">
+        <action
+            android:id="@+id/action_addingFragment_to_cameraFragment"
+            app:destination="@id/cameraFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/cameraFragment"
+        tools:layout="@layout/camera_fragment"
+        android:name="com.osvaldo.stickerstracker.ui.cameraScan.CameraFragment"
+        android:label="CameraFragment" />
 </navigation>
