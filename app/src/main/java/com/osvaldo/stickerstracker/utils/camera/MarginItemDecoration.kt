@@ -1,4 +1,4 @@
-package com.osvaldo.stickerstracker.utils
+package com.osvaldo.stickerstracker.utils.camera
 
 import android.graphics.Rect
 import android.view.View

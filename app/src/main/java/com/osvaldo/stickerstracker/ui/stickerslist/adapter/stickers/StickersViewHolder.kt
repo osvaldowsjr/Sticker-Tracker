@@ -16,10 +16,10 @@ class StickersViewHolder(stickerView: StickerLayoutBinding) :
         stickerId.text = player.number
         stickerAmount.text = player.amount.toString()
 
-        when(player.amount){
+        when (player.amount) {
             0 -> layout.setBackgroundColor(ContextCompat.getColor(layout.context, R.color.red))
-            1 -> layout.setBackgroundColor(ContextCompat.getColor(layout.context,R.color.green))
-            else -> layout.setBackgroundColor(ContextCompat.getColor(layout.context,R.color.blue))
+            1 -> layout.setBackgroundColor(ContextCompat.getColor(layout.context, R.color.green))
+            else -> layout.setBackgroundColor(ContextCompat.getColor(layout.context, R.color.blue))
 
         }
     }

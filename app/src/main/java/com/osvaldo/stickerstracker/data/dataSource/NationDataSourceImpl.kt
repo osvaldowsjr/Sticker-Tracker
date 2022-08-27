@@ -12,7 +12,7 @@ class NationDataSourceImpl(private val nationDao: NationDao) : NationDataSource 
         nationDao.updateNation(nation)
     }
 
-    override suspend fun selectNation(nationEnum: String): Nation {
+    override suspend fun selectNation(nationEnum: String): Nation? {
         return nationDao.selectNation(nationEnum)
     }
 

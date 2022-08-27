@@ -1,4 +1,4 @@
-package com.osvaldo.stickerstracker.utils
+package com.osvaldo.stickerstracker.utils.camera
 
 import android.graphics.Rect
 import androidx.camera.core.ImageAnalysis
@@ -16,7 +16,7 @@ class TextAnalyzer(
     private val imageCropPercentages: MutableLiveData<Pair<Int, Int>>
 ) : ImageAnalysis.Analyzer {
 
-    private val detector = TextRecognition.getClient()
+    private val detector = TextRecognition.getClient(TextReconOptions())
 
     init {
         lifecycle.addObserver(detector)

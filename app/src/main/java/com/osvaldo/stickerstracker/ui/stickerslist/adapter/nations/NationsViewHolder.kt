@@ -12,7 +12,7 @@ class NationsViewHolder(itemView: NationLayoutBinding) : RecyclerView.ViewHolder
     val itemLayout = itemView.itemLayout
     val playersList = itemView.playersList
 
-    fun bind(nation: Nation){
+    fun bind(nation: Nation) {
         imageFlag.setImageResource(nation.nationFlag)
         nationName.text = nation.nationName
         createAdapter(nation)

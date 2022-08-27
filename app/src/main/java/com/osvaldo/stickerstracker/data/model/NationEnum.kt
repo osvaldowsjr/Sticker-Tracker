@@ -116,9 +116,9 @@ fun NationEnum.getName(): String {
 
 fun NationEnum.generateListOfPlayers(): List<Player> {
     val list = ArrayList<Player>()
-    when(this){
+    when (this) {
         NationEnum.FWC -> createFifaList(list)
-        else -> createNationList(this,list)
+        else -> createNationList(this, list)
     }
     return list
 }

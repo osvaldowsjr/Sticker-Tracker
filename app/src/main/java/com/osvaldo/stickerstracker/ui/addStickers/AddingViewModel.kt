@@ -9,7 +9,7 @@ import com.osvaldo.stickerstracker.data.repository.NationRepository
 import kotlinx.coroutines.launch
 
 class AddingViewModel(private val repository: NationRepository) : ViewModel() {
-    val allNations : LiveData<List<Nation>> = repository.allNation.asLiveData()
+    val allNations: LiveData<List<Nation>> = repository.allNation.asLiveData()
 
     fun updateNation() = viewModelScope.launch {
         allNations.value?.forEach {

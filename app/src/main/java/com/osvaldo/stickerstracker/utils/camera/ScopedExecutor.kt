@@ -1,4 +1,4 @@
-package com.osvaldo.stickerstracker.utils
+package com.osvaldo.stickerstracker.utils.camera
 
 import java.util.concurrent.Executor
 import java.util.concurrent.atomic.AtomicBoolean

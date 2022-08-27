@@ -4,7 +4,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
-import com.osvaldo.stickerstracker.R
 import com.osvaldo.stickerstracker.data.model.Nation
 import com.osvaldo.stickerstracker.databinding.NationLayoutBinding
 
@@ -16,7 +15,7 @@ class NationsAdapter : ListAdapter<Nation, NationsViewHolder>(NationsComparator)
         return NationsViewHolder(binding)
     }
 
-    private val onClickListener : View.OnClickListener = View.OnClickListener { view ->
+    private val onClickListener: View.OnClickListener = View.OnClickListener { view ->
         val position = view?.tag as Int
         val nation = getItem(position)
         nation.isPlayerListVisible = !nation.isPlayerListVisible

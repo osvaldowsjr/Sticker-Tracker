@@ -10,8 +10,8 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import com.osvaldo.stickerstracker.utils.ScopedExecutor
-import com.osvaldo.stickerstracker.utils.TextAnalyzer
+import com.osvaldo.stickerstracker.utils.camera.ScopedExecutor
+import com.osvaldo.stickerstracker.utils.camera.TextAnalyzer
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors

@@ -4,7 +4,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.osvaldo.stickerstracker.data.model.Player
 import com.osvaldo.stickerstracker.databinding.AddingItemLayoutBinding
 
-class AddingViewHolder(itemView : AddingItemLayoutBinding) : RecyclerView.ViewHolder(itemView.root) {
+class AddingViewHolder(itemView: AddingItemLayoutBinding) : RecyclerView.ViewHolder(itemView.root) {
     val name = itemView.stickerName
     val amount = itemView.stickerAmount
     val buttonPlus = itemView.buttonPlus

@@ -1,4 +1,4 @@
-package com.osvaldo.stickerstracker.utils
+package com.osvaldo.stickerstracker.utils.camera
 
 import android.os.Handler
 import androidx.lifecycle.MutableLiveData

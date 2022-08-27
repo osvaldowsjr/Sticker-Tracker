@@ -10,7 +10,6 @@ import com.osvaldo.stickerstracker.ui.cameraScan.CameraViewModel
 import com.osvaldo.stickerstracker.ui.main.MainViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module

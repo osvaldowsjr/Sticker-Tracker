@@ -17,7 +17,7 @@
         app:layout_constraintBottom_toBottomOf="parent"/>
 
     <ImageView
-        android:id="@+id/add_stickers"
+        android:id="@+id/endIcon"
         android:layout_width="50dp"
         tools:background="@color/black"
         android:layout_height="50dp"
@@ -27,7 +27,7 @@
         android:src="@drawable/ic_plus_sign"/>
 
     <ImageView
-        android:id="@+id/swap_stickers"
+        android:id="@+id/startIcon"
         android:padding="15dp"
         android:layout_width="50dp"
         android:layout_height="50dp"

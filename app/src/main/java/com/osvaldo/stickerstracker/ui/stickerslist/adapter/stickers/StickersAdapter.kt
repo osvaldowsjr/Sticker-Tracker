@@ -9,7 +9,8 @@ import com.osvaldo.stickerstracker.databinding.StickerLayoutBinding
 
 class StickersAdapter : ListAdapter<Player, StickersViewHolder>(StickersComparator) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StickersViewHolder {
-        val binding = StickerLayoutBinding.inflate(LayoutInflater.from(parent.context),parent,false)
+        val binding =
+            StickerLayoutBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return StickersViewHolder(binding)
     }
 

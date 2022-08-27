@@ -7,7 +7,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class CameraActivity : AppCompatActivity(R.layout.camera_activity) {
 
-    private val cameraViewModel : CameraViewModel by viewModel()
+    private val cameraViewModel: CameraViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
