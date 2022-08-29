@@ -15,6 +15,9 @@
         <action
             android:id="@+id/action_mainFragment_to_addingFragment"
             app:destination="@id/addingFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_informationFragment"
+            app:destination="@id/informationFragment" />
     </fragment>
     <fragment
         android:id="@+id/addingFragment"
@@ -30,4 +33,9 @@
         tools:layout="@layout/camera_fragment"
         android:name="com.osvaldo.stickerstracker.ui.cameraScan.CameraFragment"
         android:label="CameraFragment" />
+    <fragment
+        android:id="@+id/informationFragment"
+        tools:layout="@layout/information_fragment"
+        android:name="com.osvaldo.stickerstracker.ui.information.InformationFragment"
+        android:label="InformationFragment" />
 </navigation>

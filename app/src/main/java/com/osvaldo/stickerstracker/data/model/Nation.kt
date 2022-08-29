@@ -9,7 +9,7 @@ data class Nation(
     @PrimaryKey(autoGenerate = true)
     val nationId: Int? = null,
     val nationName: String,
-    val nationFlag: Int,
+    var nationFlag: Int,
     val nationEnum: NationEnum,
     var listOfPlayers: List<Player>,
 

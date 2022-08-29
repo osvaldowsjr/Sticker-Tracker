@@ -1,5 +1,6 @@
 package com.osvaldo.stickerstracker.ui.cameraScan
 
+import android.view.View
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -11,27 +12,33 @@ import com.osvaldo.stickerstracker.data.repository.NationRepository
 import com.osvaldo.stickerstracker.ui.cameraScan.CameraFunctions.Companion.DESIRED_HEIGHT_CROP_PERCENT
 import com.osvaldo.stickerstracker.ui.cameraScan.CameraFunctions.Companion.DESIRED_WIDTH_CROP_PERCENT
 import com.osvaldo.stickerstracker.utils.camera.SmoothedMutableLiveData
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class CameraViewModel(private val repository: NationRepository) : ViewModel() {
+class CameraViewModel(
+    private val repository: NationRepository,
+    internal val coroutineDispatcher: CoroutineDispatcher = Dispatchers.Main.immediate
+) : ViewModel() {
 
     val sourceText = SmoothedMutableLiveData<String>(SMOOTHING_DURATION)
     val nationName = SmoothedMutableLiveData<String>(SMOOTHING_DURATION)
     val stickerNumber = SmoothedMutableLiveData<String>(SMOOTHING_DURATION)
     val nationEnum = SmoothedMutableLiveData<Int>(SMOOTHING_DURATION)
-    val isAdded = SmoothedMutableLiveData<Boolean>(SMOOTHING_DURATION)
+    val isAdded = SmoothedMutableLiveData<Int>(SMOOTHING_DURATION)
+    val isRepeated = SmoothedMutableLiveData<Int>(SMOOTHING_DURATION)
 
     val imageCropPercentages = MutableLiveData<Pair<Int, Int>>()
         .apply { value = Pair(DESIRED_HEIGHT_CROP_PERCENT, DESIRED_WIDTH_CROP_PERCENT) }
 
     fun addSticker(stickerId: String) {
-        viewModelScope.launch {
+        viewModelScope.launch(coroutineDispatcher) {
             if (stickerId.length < 5) {
                 buildNotFoundNation()
-                isAdded.postValue(false)
+                isAdded.postValue(View.GONE)
             } else {
                 addStickerToDatabase(stickerId)
-                isAdded.postValue(true)
+                isAdded.postValue(View.VISIBLE)
             }
         }
     }
@@ -49,7 +56,7 @@ class CameraViewModel(private val repository: NationRepository) : ViewModel() {
     private fun buildNotFoundNation() {
         nationName.postValue("Nação não encontrada, tente novamente!")
         stickerNumber.postValue(":(")
-        nationEnum.postValue(R.drawable.ic_image_not_found_icon)
+        nationEnum.postValue(R.drawable.not_found)
     }
 
     private suspend fun addStickerToDatabase(stickerId: String) {
@@ -58,7 +65,19 @@ class CameraViewModel(private val repository: NationRepository) : ViewModel() {
             val indexOfPlayer = repository.indexPlayerToAdd(stickerId)
             buildNation(nation, indexOfPlayer)
             nation.listOfPlayers[indexOfPlayer].amount++
+            controlIsRepeated(nation, indexOfPlayer)
             repository.updateNation(nation)
+        }
+    }
+
+    private fun controlIsRepeated(
+        nation: Nation,
+        indexOfPlayer: Int
+    ) {
+        if (nation.listOfPlayers[indexOfPlayer].amount > 1) {
+            isRepeated.postValue(View.VISIBLE)
+        }else{
+            isRepeated.postValue(View.GONE)
         }
     }
 

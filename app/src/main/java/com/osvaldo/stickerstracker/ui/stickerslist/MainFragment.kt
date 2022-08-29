@@ -17,7 +17,7 @@ class MainFragment : Fragment(R.layout.main_fragment) {
 
     private val mainViewModel: MainViewModel by viewModel()
     private val binding by viewBinding(MainFragmentBinding::bind)
-    val listAdapter = NationsAdapter()
+    private val listAdapter = NationsAdapter()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -32,6 +32,12 @@ class MainFragment : Fragment(R.layout.main_fragment) {
         binding.toolbar.setEndIconOnClickListener {
             findNavController().navigate(
                 MainFragmentDirections.actionMainFragmentToAddingFragment()
+            )
+        }
+        binding.toolbar.setStartIconDrawable(R.drawable.icon_info)
+        binding.toolbar.setStartIconOnClickListener {
+            findNavController().navigate(
+                MainFragmentDirections.actionMainFragmentToInformationFragment()
             )
         }
     }

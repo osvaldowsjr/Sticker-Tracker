@@ -17,27 +17,27 @@
         app:layout_constraintBottom_toBottomOf="parent"/>
 
     <ImageView
+        android:id="@+id/startIcon"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:padding="15dp"
+        tools:background="@color/black"
+        android:src="@drawable/icon_info"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
         android:id="@+id/endIcon"
         android:layout_width="50dp"
         tools:background="@color/black"
         android:layout_height="50dp"
+        android:padding="15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:src="@drawable/ic_plus_sign"/>
+        android:src="@drawable/icon_add"/>
 
-    <ImageView
-        android:id="@+id/startIcon"
-        android:padding="15dp"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:adjustViewBounds="true"
-        android:cropToPadding="true"
-        android:scaleType="centerInside"
-        tools:background="@color/black"
-        android:src="@drawable/ic_swap_sign"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

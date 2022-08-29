@@ -48,13 +48,9 @@ class CameraFragment : CameraFunctions() {
         container = view as ConstraintLayout
         viewFinder = container.findViewById(R.id.viewfinder)
 
-        binding.buttonStop.setOnClickListener {
-            stopCamera()
-        }
+        binding.buttonStop.setOnClickListener { stopCamera() }
 
-        binding.buttonRestart.setOnClickListener {
-            restartCamera(viewFinder)
-        }
+        binding.buttonRestart.setOnClickListener { restartCamera(viewFinder) }
 
         binding.buttonAdd.setOnClickListener {
             cameraViewModel.addSticker(binding.srcText.text.toString())
@@ -76,21 +72,18 @@ class CameraFragment : CameraFunctions() {
 
     private fun setupObserver() {
         cameraViewModel.nationName.observe(viewLifecycleOwner) { binding.nationName.text = it }
+        cameraViewModel.stickerNumber.observe(viewLifecycleOwner) { binding.stickerId.text = it }
+        cameraViewModel.isAdded.observe(viewLifecycleOwner) { binding.isAdded.visibility = it }
+        cameraViewModel.sourceText.observe(viewLifecycleOwner) { binding.srcText.setText(it) }
         cameraViewModel.nationEnum.observe(viewLifecycleOwner) {
             binding.imageFlag.setImageResource(it)
         }
-        cameraViewModel.stickerNumber.observe(viewLifecycleOwner){
-            binding.stickerId.text = it
+        cameraViewModel.isRepeated.observe(viewLifecycleOwner) {
+            binding.isRepeated.visibility = it
         }
-        cameraViewModel.isAdded.observe(viewLifecycleOwner){
-            if (it)
-                binding.isAdded.visibility = View.VISIBLE
-            else
-                binding.isAdded.visibility = View.GONE
-        }
-        cameraViewModel.sourceText.observe(viewLifecycleOwner) { binding.srcText.setText(it) }
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onRequestPermissionsResult(
         requestCode: Int, permissions: Array<String>, grantResults: IntArray
     ) {

@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">StickersTracker</string>
     <string name="placeholder">Argentina</string>
+    <string name="sticker_completion">%1$s / %2$s</string>
 </resources>

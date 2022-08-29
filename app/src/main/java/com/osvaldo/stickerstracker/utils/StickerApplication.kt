@@ -1,4 +1,4 @@
-package com.osvaldo.stickerstracker
+package com.osvaldo.stickerstracker.utils
 
 import android.app.Application
 import com.osvaldo.stickerstracker.di.appModule
