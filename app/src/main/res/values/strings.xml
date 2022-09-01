@@ -3,4 +3,22 @@
     <string name="placeholder">Argentina</string>
     <string name="sticker_completion">%1$s / %2$s</string>
     <string name="plural_nation">Nações com mais figurinhas</string>
+    <string name="singular_nation">Nação com mais figurinhas:</string>
+    <string name="sticker_obtained">Figurinhas já obtidas</string>
+    <string name="plural_nation_least">Nações com menos figurinhas</string>
+    <string name="singular_nation_least">Nação com menos figurinhas:</string>
+    <string name="percentage">%1$s</string>
+    <string name="update">atualizar</string>
+    <string name="minus">-</string>
+    <string name="plus">+</string>
+    <string name="add">Adicionar</string>
+    <string name="repeated">Repetida :(</string>
+    <string name="added">Adicionada!</string>
+    <string name="stop">Parar</string>
+    <string name="restart">Recomeçar</string>
+    <string name="use_camera_and_register">Use sua câmera e registre sua figurinha</string>
+    <string name="not_identified">N/A</string>
+    <string name="sticker_list">Lista de figurinhas</string>
+    <string name="sticker_repeated">Figurinhas repetidas</string>
+    <string name="sticker_missing">Figurinhas faltantes</string>
 </resources>

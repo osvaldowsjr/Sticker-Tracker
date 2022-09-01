@@ -7,7 +7,7 @@ import com.osvaldo.stickerstracker.data.model.Nation
 import com.osvaldo.stickerstracker.databinding.MostObtainedLayoutBinding
 import com.osvaldo.stickerstracker.ui.stickerslist.adapter.nations.NationsComparator
 
-class MostObtainedAdapter : ListAdapter<Nation, MostObtainedViewHolder>(
+class ObtainedAdapter : ListAdapter<Nation, MostObtainedViewHolder>(
     NationsComparator
 ) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MostObtainedViewHolder {

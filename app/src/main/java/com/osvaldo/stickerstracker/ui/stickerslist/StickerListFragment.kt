@@ -41,7 +41,12 @@ class StickerListFragment : Fragment(R.layout.main_fragment) {
                     StickerListFragmentDirections.actionMainFragmentToInformationFragment()
                 )
             }
-            setBackIconVisibility(View.GONE)
+            setBackIconDrawable(R.drawable.icon_filter)
+            setBackIconOnClickListener{
+                findNavController().navigate(
+                    StickerListFragmentDirections.actionMainFragmentToFilterFragment()
+                )
+            }
         }
     }
 }

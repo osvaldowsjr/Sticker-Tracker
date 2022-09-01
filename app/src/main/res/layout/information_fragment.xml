@@ -2,9 +2,9 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="?attr/colorOnBackground"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="?attr/colorOnBackground">
 
     <com.osvaldo.stickerstracker.ui.customViews.CustomToolbar
         android:id="@+id/toolbar"
@@ -17,7 +17,7 @@
         style="@style/ExtraSmallText"
         android:layout_marginStart="10dp"
         android:layout_marginTop="20dp"
-        android:text="Figurinhas já obtidas"
+        android:text="@string/sticker_obtained"
         app:layout_constraintStart_toStartOf="@+id/progressBar"
         app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
@@ -28,6 +28,13 @@
         android:text="@string/sticker_completion"
         app:layout_constraintEnd_toEndOf="@+id/progressBar"
         app:layout_constraintTop_toTopOf="@+id/sticker_obtained" />
+
+    <TextView
+        android:id="@+id/percent_completion"
+        style="@style/ExtraSmallText"
+        android:text="@string/percentage"
+        app:layout_constraintStart_toStartOf="@+id/sticker_ratio"
+        app:layout_constraintTop_toBottomOf="@id/progressBar" />
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -48,18 +55,39 @@
         android:id="@+id/nation_most_obtained"
         style="@style/ExtraSmallText"
         android:layout_marginTop="20dp"
-        android:text="Nação com mais figurinhas:"
+        android:text="@string/singular_nation"
         app:layout_constraintStart_toStartOf="@+id/sticker_obtained"
-        app:layout_constraintTop_toBottomOf="@id/progressBar" />
+        app:layout_constraintTop_toBottomOf="@+id/percent_completion" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/most_obtained_nations"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="@id/middle"
         app:layout_constraintEnd_toEndOf="@+id/sticker_ratio"
         app:layout_constraintStart_toStartOf="@id/nation_most_obtained"
         app:layout_constraintTop_toBottomOf="@id/nation_most_obtained"
-        app:layout_constraintBottom_toBottomOf="@id/middle"
+        tools:itemCount="3"
+        tools:listItem="@layout/most_obtained_layout" />
+
+    <TextView
+        android:id="@+id/nation_least_obtained"
+        style="@style/ExtraSmallText"
+        android:layout_marginTop="20dp"
+        android:text="@string/plural_nation"
+        app:layout_constraintStart_toStartOf="@+id/sticker_obtained"
+        app:layout_constraintTop_toBottomOf="@+id/most_obtained_nations" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/least_obtained_nations"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/most_obtained_nations"
+        app:layout_constraintStart_toStartOf="@id/nation_least_obtained"
+        app:layout_constraintTop_toBottomOf="@id/nation_least_obtained"
+        app:layout_constraintVertical_bias="0.0"
         tools:itemCount="3"
         tools:listItem="@layout/most_obtained_layout" />
 

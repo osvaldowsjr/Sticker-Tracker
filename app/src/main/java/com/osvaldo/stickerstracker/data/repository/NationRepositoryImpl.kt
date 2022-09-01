@@ -3,12 +3,10 @@ package com.osvaldo.stickerstracker.data.repository
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
-import com.osvaldo.stickerstracker.R
 import com.osvaldo.stickerstracker.data.dataSource.NationDataSource
 import com.osvaldo.stickerstracker.data.model.Nation
 import com.osvaldo.stickerstracker.data.model.NationEnum
 import com.osvaldo.stickerstracker.data.model.Player
-import com.osvaldo.stickerstracker.data.model.getFlag
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -16,7 +14,7 @@ class NationRepositoryImpl(private val dataSource: NationDataSource) : NationRep
     override val allNation: LiveData<List<Nation>>
         get() = dataSource.allNations.asLiveData()
 
-    override suspend fun updateNationsFlag(nations: List<Nation>) = withContext(Dispatchers.IO){
+    override suspend fun updateNationsFlag(nations: List<Nation>) = withContext(Dispatchers.IO) {
         nations.forEach {
             updateNation(it)
         }
@@ -33,26 +31,77 @@ class NationRepositoryImpl(private val dataSource: NationDataSource) : NationRep
             Pair(obtained, total)
         }
 
-    override suspend fun getMostCompletedNation(nations: List<Nation>): List<Nation> = withContext(Dispatchers.IO){
-        val listOfNations = mutableListOf<Nation>()
-        var max = 0
-        nations.forEach { nation ->
-            var current = 0
-            nation.listOfPlayers.forEach { player ->
-                if (player.amount > 0) current++
+    override suspend fun getMostCompletedNation(nations: List<Nation>): List<Nation> =
+        withContext(Dispatchers.IO) {
+            val listOfNations = mutableListOf<Nation>()
+            var max = 0
+            nations.forEach { nation ->
+                var current = 0
+                nation.listOfPlayers.forEach { player ->
+                    if (player.amount > 0) current++
+                }
+                if (current == max)
+                    listOfNations.add(nation)
+                else if (current > max) {
+                    listOfNations.clear()
+                    listOfNations.add(nation)
+                    max = current
+                }
             }
-            if (current == max)
-                listOfNations.add(nation)
-            else if(current > max) {
-                listOfNations.clear()
-                listOfNations.add(nation)
-                max = current
-            }
+            listOfNations
         }
-        listOfNations
-    }
 
-    override suspend fun updateNation(nation: Nation) = withContext(Dispatchers.IO){
+    override suspend fun getLeastCompleatedNation(nations: List<Nation>): List<Nation> =
+        withContext(Dispatchers.IO) {
+            val listOfNations = mutableListOf<Nation>()
+            var maxValue = 0
+            nations.forEach { nation ->
+                if (nation.nationEnum != NationEnum.FWC) {
+                    var zeroCount = 0
+                    nation.listOfPlayers.forEach { player ->
+                        if (player.amount == 0) zeroCount++
+                    }
+                    if (zeroCount > maxValue) {
+                        maxValue = zeroCount
+                        listOfNations.clear()
+                        Log.d("TESTE", nation.nationName)
+                        Log.d("TESTE", "maior")
+                        listOfNations.add(nation)
+                    } else if (zeroCount == maxValue) {
+                        Log.d("TESTE", nation.nationName)
+                        Log.d("TESTE", "igual")
+                        listOfNations.add(nation)
+                    }
+                }
+            }
+            listOfNations
+        }
+
+    override suspend fun getRepeatedPlayers(nations: List<Nation>): MutableList<Player> =
+        withContext(Dispatchers.IO) {
+            val listOfPlayers = mutableListOf<Player>()
+            nations.forEach { nation ->
+                nation.listOfPlayers.forEach { player ->
+                    if (player.amount > 1)
+                        listOfPlayers.add(player)
+                }
+            }
+            listOfPlayers
+        }
+
+    override suspend fun getMissingPlayers(nations: List<Nation>): MutableList<Player> =
+        withContext(Dispatchers.IO) {
+            val listOfPlayers = mutableListOf<Player>()
+            nations.forEach { nation ->
+                nation.listOfPlayers.forEach { player ->
+                    if (player.amount == 0)
+                        listOfPlayers.add(player)
+                }
+            }
+            listOfPlayers
+        }
+
+    override suspend fun updateNation(nation: Nation) = withContext(Dispatchers.IO) {
         dataSource.updateNation(nation)
     }
 

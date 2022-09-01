@@ -18,6 +18,9 @@
         <action
             android:id="@+id/action_mainFragment_to_informationFragment"
             app:destination="@id/informationFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_filterFragment"
+            app:destination="@id/filterFragment" />
     </fragment>
     <fragment
         android:id="@+id/addingFragment"
@@ -38,4 +41,9 @@
         tools:layout="@layout/information_fragment"
         android:name="com.osvaldo.stickerstracker.ui.information.InformationFragment"
         android:label="InformationFragment" />
+    <fragment
+        android:id="@+id/filterFragment"
+        tools:layout="@layout/filter_fragment"
+        android:name="com.osvaldo.stickerstracker.ui.filter.FilterFragment"
+        android:label="FilterFragment" />
 </navigation>

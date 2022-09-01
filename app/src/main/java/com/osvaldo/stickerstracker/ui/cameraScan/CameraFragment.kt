@@ -16,7 +16,6 @@ import com.osvaldo.stickerstracker.utils.viewBinding
 
 class CameraFragment : CameraFunctions() {
     companion object {
-        fun newInstance() = CameraFragment()
         private const val REQUEST_CODE_PERMISSIONS = 10
         private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
     }

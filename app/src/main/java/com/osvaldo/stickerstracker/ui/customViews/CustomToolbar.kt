@@ -17,6 +17,10 @@ class CustomToolbar @JvmOverloads constructor(
         binding.backIcon.visibility = visibility
     }
 
+    fun setBackIconDrawable(id:Int){
+        binding.backIcon.setImageResource(id)
+    }
+
     fun setBackIconOnClickListener(listener: OnClickListener) {
         binding.backIcon.setOnClickListener(listener)
     }
