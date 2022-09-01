@@ -7,7 +7,7 @@
 
     <TextView
         style="@style/ExtraSmallText"
-        android:text="Lista de figurinhas"
+        android:text="@string/sticker_list"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

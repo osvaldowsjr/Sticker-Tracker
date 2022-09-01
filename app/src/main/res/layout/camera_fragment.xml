@@ -61,7 +61,7 @@
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:text="Adicionar"
+        android:text="@string/add"
         app:layout_constraintEnd_toStartOf="@+id/middle_vertical"
         app:layout_constraintStart_toStartOf="@+id/middle_vertical"
         app:layout_constraintTop_toBottomOf="@id/srcText" />
@@ -88,7 +88,7 @@
             android:id="@+id/nation_name"
             style="@style/ExtraSmallText"
             android:layout_marginStart="10dp"
-            android:text="Use sua câmera e registre sua figurinha"
+            android:text="@string/use_camera_and_register"
             app:layout_constraintStart_toEndOf="@+id/image_flag"
             app:layout_constraintTop_toTopOf="@+id/image_flag" />
 
@@ -96,7 +96,7 @@
             android:id="@+id/sticker_id"
             style="@style/ExtraSmallText"
             android:layout_marginStart="10dp"
-            android:text="N/A"
+            android:text="@string/not_identified"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/image_flag" />
 
@@ -104,7 +104,7 @@
             android:id="@+id/isAdded"
             style="@style/ExtraSmallText"
             android:layout_marginStart="40dp"
-            android:text="Adicionada!"
+            android:text="@string/added"
             android:visibility="gone"
             app:layout_constraintStart_toEndOf="@id/sticker_id"
             app:layout_constraintTop_toTopOf="@id/sticker_id"
@@ -114,7 +114,7 @@
             android:id="@+id/isRepeated"
             style="@style/ExtraSmallText"
             android:layout_marginStart="10dp"
-            android:text="Repetida :("
+            android:text="@string/repeated"
             android:visibility="gone"
             app:layout_constraintStart_toEndOf="@+id/isAdded"
             app:layout_constraintTop_toTopOf="@id/sticker_id"
@@ -126,7 +126,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:text="Parar"
+        android:text="@string/stop"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@id/middle_vertical" />
@@ -136,7 +136,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:text="Recomeçar"
+        android:text="@string/restart"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/middle_vertical"
         app:layout_constraintStart_toStartOf="parent" />

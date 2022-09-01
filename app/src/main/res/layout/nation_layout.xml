@@ -29,7 +29,6 @@
             style="@style/ExtraSmallText"
             android:layout_marginStart="10dp"
             android:ellipsize="none"
-            android:scrollHorizontally="false"
             android:text="@string/placeholder"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/flag_drawable"

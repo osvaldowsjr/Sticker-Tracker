@@ -42,7 +42,7 @@
     <Button
         android:id="@+id/update_button"
         android:layout_width="match_parent"
-        android:text="atualizar"
+        android:text="@string/update"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="20dp"
         app:layout_constraintBottom_toBottomOf="parent"/>
