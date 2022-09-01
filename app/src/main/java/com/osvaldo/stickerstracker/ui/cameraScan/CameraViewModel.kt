@@ -12,6 +12,7 @@ import com.osvaldo.stickerstracker.data.repository.NationRepository
 import com.osvaldo.stickerstracker.ui.cameraScan.CameraFunctions.Companion.DESIRED_HEIGHT_CROP_PERCENT
 import com.osvaldo.stickerstracker.ui.cameraScan.CameraFunctions.Companion.DESIRED_WIDTH_CROP_PERCENT
 import com.osvaldo.stickerstracker.utils.camera.SmoothedMutableLiveData
+import com.osvaldo.stickerstracker.utils.removeSpaces
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -45,24 +46,25 @@ class CameraViewModel(
 
     private fun buildNation(nation: Nation, stickerId: Int) {
         nationName.postValue(nation.nationName)
+        nationEnum.postValue(nation.nationEnum.getFlag())
         if (nation.nationEnum == NationEnum.FWC) {
             stickerNumber.postValue(stickerId.toString())
         } else {
             stickerNumber.postValue((stickerId + 1).toString())
         }
-        nationEnum.postValue(nation.nationEnum.getFlag())
     }
 
     private fun buildNotFoundNation() {
         nationName.postValue("Nação não encontrada, tente novamente!")
         stickerNumber.postValue(":(")
-        nationEnum.postValue(R.drawable.not_found)
+        nationEnum.postValue(R.drawable.icon_not_found)
     }
 
     private suspend fun addStickerToDatabase(stickerId: String) {
-        val nation = repository.selectNation(stickerId)
+        val id = stickerId.removeSpaces().trim().uppercase()
+        val nation = repository.selectNation(id)
         if (nation.nationName != "N/A") {
-            val indexOfPlayer = repository.indexPlayerToAdd(stickerId)
+            val indexOfPlayer = repository.indexPlayerToAdd(id)
             buildNation(nation, indexOfPlayer)
             nation.listOfPlayers[indexOfPlayer].amount++
             controlIsRepeated(nation, indexOfPlayer)

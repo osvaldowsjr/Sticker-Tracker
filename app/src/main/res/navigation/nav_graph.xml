@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/mainFragment"
-        android:name="com.osvaldo.stickerstracker.ui.stickerslist.MainFragment"
+        android:name="com.osvaldo.stickerstracker.ui.stickerslist.StickerListFragment"
         android:label="main_fragment"
         app:navGraph="@navigation/nav_graph"
         app:defaultNavHost="true"

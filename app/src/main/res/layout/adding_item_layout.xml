@@ -7,8 +7,7 @@
 
     <TextView
         android:id="@+id/sticker_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/SmallText"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="20dp"
         android:text="ARG 1"
@@ -18,8 +17,7 @@
 
     <TextView
         android:id="@+id/sticker_amount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/SmallText"
         app:layout_constraintStart_toEndOf="@id/sticker_name"
         app:layout_constraintTop_toTopOf="@id/sticker_name"
         app:layout_constraintBottom_toBottomOf="@id/sticker_name"

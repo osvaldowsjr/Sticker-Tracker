@@ -9,7 +9,7 @@ interface NationRepository {
     val allNation: LiveData<List<Nation>>
     suspend fun updateNationsFlag(nations: List<Nation>)
     suspend fun getAlbumCompletion(nations : List<Nation>) : Pair<Int,Int>
-    suspend fun getMostCompletedNation(nations : List<Nation>) : Nation
+    suspend fun getMostCompletedNation(nations : List<Nation>) : List<Nation>
     suspend fun updateListOfPlayers(listOfPlayer: List<Player>)
     suspend fun updateNation(nation: Nation)
     suspend fun selectNation(nationString: String): Nation

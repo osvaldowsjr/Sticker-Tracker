@@ -49,6 +49,13 @@ class CameraFragment : CameraFunctions() {
         viewFinder = container.findViewById(R.id.viewfinder)
 
         binding.buttonStop.setOnClickListener { stopCamera() }
+        binding.toolbar.apply {
+            setLastIconVisibility(View.GONE)
+            setFirstIconVisibility(View.GONE)
+            setBackIconOnClickListener {
+                requireActivity().onBackPressedDispatcher.onBackPressed()
+            }
+        }
 
         binding.buttonRestart.setOnClickListener { restartCamera(viewFinder) }
 

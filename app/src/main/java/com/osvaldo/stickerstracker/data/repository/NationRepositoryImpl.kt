@@ -18,7 +18,6 @@ class NationRepositoryImpl(private val dataSource: NationDataSource) : NationRep
 
     override suspend fun updateNationsFlag(nations: List<Nation>) = withContext(Dispatchers.IO){
         nations.forEach {
-            it.nationFlag = it.nationEnum.getFlag()
             updateNation(it)
         }
     }
@@ -34,28 +33,23 @@ class NationRepositoryImpl(private val dataSource: NationDataSource) : NationRep
             Pair(obtained, total)
         }
 
-    override suspend fun getMostCompletedNation(nations: List<Nation>): Nation = withContext(Dispatchers.IO){
-        var mostSelected =
-            Nation(
-                nationName = "Não encontrada",
-                nationFlag = R.drawable.not_found,
-                nationEnum = NationEnum.FWC,
-                listOfPlayers = listOf()
-            )
+    override suspend fun getMostCompletedNation(nations: List<Nation>): List<Nation> = withContext(Dispatchers.IO){
+        val listOfNations = mutableListOf<Nation>()
         var max = 0
         nations.forEach { nation ->
             var current = 0
             nation.listOfPlayers.forEach { player ->
                 if (player.amount > 0) current++
             }
-            if (current >= max) {
-                max = max.coerceAtLeast(current)
-                Log.d("TESTE",nation.nationName)
-                mostSelected = nation
-                current = 0
+            if (current == max)
+                listOfNations.add(nation)
+            else if(current > max) {
+                listOfNations.clear()
+                listOfNations.add(nation)
+                max = current
             }
         }
-        mostSelected
+        listOfNations
     }
 
     override suspend fun updateNation(nation: Nation) = withContext(Dispatchers.IO){
@@ -66,7 +60,6 @@ class NationRepositoryImpl(private val dataSource: NationDataSource) : NationRep
         val nation = dataSource.selectNation(nationString.substring(0, 3).trim())
         nation ?: Nation(
             nationName = "N/A",
-            nationFlag = 1,
             nationEnum = NationEnum.FWC,
             listOfPlayers = listOf()
         )
@@ -74,9 +67,9 @@ class NationRepositoryImpl(private val dataSource: NationDataSource) : NationRep
 
     override suspend fun indexPlayerToAdd(nationString: String): Int = withContext(Dispatchers.IO) {
         if (nationString.contains("FWC")) {
-            nationString.substring(4).toIntOrNull() ?: Int.MIN_VALUE
+            nationString.substring(3).toIntOrNull() ?: Int.MIN_VALUE
         } else {
-            nationString.substring(4).toIntOrNull()?.minus(1) ?: Int.MIN_VALUE
+            nationString.substring(3).toIntOrNull()?.minus(1) ?: Int.MIN_VALUE
         }
     }
 

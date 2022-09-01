@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="?attr/colorOnBackground">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/middle"
@@ -22,6 +23,12 @@
         app:layout_constraintGuide_percent=".5"
         tools:viewBindingIgnore="true" />
 
+    <com.osvaldo.stickerstracker.ui.customViews.CustomToolbar
+        android:id="@+id/toolbar"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
     <androidx.camera.view.PreviewView
         android:id="@+id/viewfinder"
         android:layout_width="match_parent"
@@ -29,7 +36,7 @@
         app:layout_constraintBottom_toTopOf="@id/middle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
     <SurfaceView
         android:id="@+id/overlay"
@@ -72,15 +79,14 @@
             android:id="@+id/image_flag"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:src="@drawable/not_found"
+            android:src="@drawable/icon_not_found"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/nation_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/ExtraSmallText"
             android:layout_marginStart="10dp"
             android:text="Use sua câmera e registre sua figurinha"
             app:layout_constraintStart_toEndOf="@+id/image_flag"
@@ -88,8 +94,7 @@
 
         <TextView
             android:id="@+id/sticker_id"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/ExtraSmallText"
             android:layout_marginStart="10dp"
             android:text="N/A"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -97,29 +102,24 @@
 
         <TextView
             android:id="@+id/isAdded"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/ExtraSmallText"
             android:layout_marginStart="40dp"
-            android:visibility="gone"
-            tools:visibility="visible"
             android:text="Adicionada!"
-            app:layout_constraintStart_toEndOf="@id/sticker_id"
-            app:layout_constraintTop_toTopOf="@id/sticker_id"/>
-
-        <TextView
-            android:id="@+id/isRepeated"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Repetida :("
             android:visibility="gone"
-            android:layout_marginStart="10dp"
-            app:layout_constraintStart_toEndOf="@+id/isAdded"
+            app:layout_constraintStart_toEndOf="@id/sticker_id"
             app:layout_constraintTop_toTopOf="@id/sticker_id"
             tools:visibility="visible" />
 
-
+        <TextView
+            android:id="@+id/isRepeated"
+            style="@style/ExtraSmallText"
+            android:layout_marginStart="10dp"
+            android:text="Repetida :("
+            android:visibility="gone"
+            app:layout_constraintStart_toEndOf="@+id/isAdded"
+            app:layout_constraintTop_toTopOf="@id/sticker_id"
+            tools:visibility="visible" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 
     <Button
         android:id="@+id/button_stop"

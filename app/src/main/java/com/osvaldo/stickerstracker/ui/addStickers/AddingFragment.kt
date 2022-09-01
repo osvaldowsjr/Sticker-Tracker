@@ -2,8 +2,6 @@ package com.osvaldo.stickerstracker.ui.addStickers
 
 import android.os.Bundle
 import android.view.View
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -12,7 +10,7 @@ import com.osvaldo.stickerstracker.databinding.AddingFragmentBinding
 import com.osvaldo.stickerstracker.utils.viewBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class AddingFragment : Fragment(R.layout.adding_fragment), AdapterView.OnItemSelectedListener {
+class AddingFragment : Fragment(R.layout.adding_fragment) {
     private val binding: AddingFragmentBinding by viewBinding(AddingFragmentBinding::bind)
     private val addingViewModel: AddingViewModel by viewModel()
     private val listAdapter = AddingAdapter()
@@ -20,27 +18,22 @@ class AddingFragment : Fragment(R.layout.adding_fragment), AdapterView.OnItemSel
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.toolbar.setStartIconVisibility(View.GONE)
-
-        binding.toolbar.setEndIconOnClickListener() {
-            findNavController().navigate(AddingFragmentDirections.actionAddingFragmentToCameraFragment())
+        binding.toolbar.apply {
+            setFirstIconVisibility(View.GONE)
+            setLastIconOnClickListener {
+                findNavController().navigate(AddingFragmentDirections.actionAddingFragmentToCameraFragment())
+            }
+            setLastIconDrawable(R.drawable.icon_camera)
+            setBackIconOnClickListener { requireActivity().onBackPressedDispatcher.onBackPressed() }
         }
-
-        binding.toolbar.setEndIconDrawable(R.drawable.icon_camera)
 
         binding.updateButton.setOnClickListener {
             addingViewModel.updateNation()
         }
 
-        addingViewModel.allNations.observe(viewLifecycleOwner) { listOfNations ->
-            val arrayAdapter = ArrayAdapter(
-                requireContext(),
-                org.koin.android.R.layout.support_simple_spinner_dropdown_item,
-                listOfNations
-            )
-            binding.spinnerNation.apply {
-                this.adapter = arrayAdapter
-                onItemSelectedListener = this@AddingFragment
+        binding.spinnerNation.position.observe(viewLifecycleOwner) { position ->
+            addingViewModel.allNations.observe(viewLifecycleOwner) {
+                listAdapter.submitList(it[position].listOfPlayers)
             }
         }
     }
@@ -51,16 +44,5 @@ class AddingFragment : Fragment(R.layout.adding_fragment), AdapterView.OnItemSel
             this.adapter = listAdapter
             this.layoutManager = LinearLayoutManager(requireContext())
         }
-    }
-
-    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-        addingViewModel.allNations.observe(viewLifecycleOwner) {
-            listAdapter.submitList(it[position].listOfPlayers)
-            binding.imageFlag.setImageResource(it[position].nationFlag)
-        }
-    }
-
-    override fun onNothingSelected(p0: AdapterView<*>?) {
-        //Do nothing
     }
 }

@@ -13,7 +13,7 @@ import com.osvaldo.stickerstracker.utils.camera.MarginItemDecoration
 import com.osvaldo.stickerstracker.utils.viewBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class MainFragment : Fragment(R.layout.main_fragment) {
+class StickerListFragment : Fragment(R.layout.main_fragment) {
 
     private val mainViewModel: MainViewModel by viewModel()
     private val binding by viewBinding(MainFragmentBinding::bind)
@@ -29,16 +29,19 @@ class MainFragment : Fragment(R.layout.main_fragment) {
         mainViewModel.allNations.observe(viewLifecycleOwner) {
             listAdapter.submitList(it)
         }
-        binding.toolbar.setEndIconOnClickListener {
+        binding.toolbar.setLastIconOnClickListener {
             findNavController().navigate(
-                MainFragmentDirections.actionMainFragmentToAddingFragment()
+                StickerListFragmentDirections.actionMainFragmentToAddingFragment()
             )
         }
-        binding.toolbar.setStartIconDrawable(R.drawable.icon_info)
-        binding.toolbar.setStartIconOnClickListener {
-            findNavController().navigate(
-                MainFragmentDirections.actionMainFragmentToInformationFragment()
-            )
+        binding.toolbar.apply {
+            setFirstIconDrawable(R.drawable.icon_info)
+            setFirstIconListener {
+                findNavController().navigate(
+                    StickerListFragmentDirections.actionMainFragmentToInformationFragment()
+                )
+            }
+            setBackIconVisibility(View.GONE)
         }
     }
 }

@@ -1,19 +1,27 @@
 package com.osvaldo.stickerstracker.appDatabase
 
 import android.content.Context
-import androidx.room.Database
-import androidx.room.Room
-import androidx.room.RoomDatabase
-import androidx.room.TypeConverters
+import androidx.room.*
+import androidx.room.migration.AutoMigrationSpec
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.osvaldo.stickerstracker.data.model.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
-@Database(entities = [Nation::class], version = 2, exportSchema = false)
+@Database(
+    entities = [Nation::class],
+    version = 3,
+    exportSchema = true,
+    autoMigrations = [
+        AutoMigration(from = 2, to = 3, spec = NationsDatabase.NationsMigration::class)
+    ]
+)
 @TypeConverters(PlayerTypeConverter::class)
 abstract class NationsDatabase : RoomDatabase() {
     abstract val nationDao: NationDao
+
+    @DeleteColumn(tableName = "NationsTable", columnName = "nationFlag")
+    class NationsMigration : AutoMigrationSpec
 
     class NationCallback(private val scope: CoroutineScope) : RoomDatabase.Callback() {
         override fun onCreate(db: SupportSQLiteDatabase) {
@@ -23,7 +31,6 @@ abstract class NationsDatabase : RoomDatabase() {
                     INSTANCE?.insert(
                         Nation(
                             nationName = it.getName(),
-                            nationFlag = it.getFlag(),
                             nationEnum = it,
                             listOfPlayers = it.generateListOfPlayers()
                         )

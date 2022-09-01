@@ -1,0 +1,58 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 2,
+    "identityHash": "f90ad80ac9c08d7f5debbbacb547b7e4",
+    "entities": [
+      {
+        "tableName": "NationsTable",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`nationId` INTEGER PRIMARY KEY AUTOINCREMENT, `nationName` TEXT NOT NULL, `nationFlag` INTEGER NOT NULL, `nationEnum` TEXT NOT NULL, `listOfPlayers` TEXT NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "nationId",
+            "columnName": "nationId",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "nationName",
+            "columnName": "nationName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "nationFlag",
+            "columnName": "nationFlag",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "nationEnum",
+            "columnName": "nationEnum",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "listOfPlayers",
+            "columnName": "listOfPlayers",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "nationId"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'f90ad80ac9c08d7f5debbbacb547b7e4')"
+    ]
+  }
+}

@@ -1,16 +1,14 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
     <style name="Theme.StickersTracker" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_200</item>
-        <item name="colorPrimaryVariant">@color/purple_700</item>
-        <item name="colorOnPrimary">@color/black</item>
-        <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/teal_200</item>
-        <item name="colorSecondaryVariant">@color/teal_200</item>
-        <item name="colorOnSecondary">@color/black</item>
-        <!-- Status bar color. -->
-        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
-        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/secondary_color</item>
+        <item name="colorPrimaryVariant">@color/secondary_shade_700</item>
+        <item name="colorOnPrimary">@color/main_shade_700</item>
+        <item name="colorSecondary">@color/main_color</item>
+        <item name="colorSecondaryVariant">@color/main_shade_700</item>
+        <item name="colorOnSecondary">@color/main_shade_700</item>
+        <item name="colorOnBackground">@color/background_color</item>
+        <item name="textColor">@color/text_color_value</item>
+        <item name="textColorNegative">@color/secondary_color</item>
+        <item name="android:statusBarColor" tools:targetApi="l">@color/background_color</item>
     </style>
 </resources>

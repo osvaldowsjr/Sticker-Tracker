@@ -13,27 +13,35 @@ class CustomToolbar @JvmOverloads constructor(
     private var binding: CustomToolbarBinding =
         CustomToolbarBinding.inflate(LayoutInflater.from(context), this, true)
 
-    fun setStartIconVisibility(visibility: Int) {
-        binding.startIcon.visibility = visibility
+    fun setBackIconVisibility(visibility: Int) {
+        binding.backIcon.visibility = visibility
     }
 
-    fun setEndIconVisibility(visibility: Int) {
-        binding.endIcon.visibility = visibility
+    fun setBackIconOnClickListener(listener: OnClickListener) {
+        binding.backIcon.setOnClickListener(listener)
     }
 
-    fun setEndIconOnClickListener(listener: OnClickListener) {
-        binding.endIcon.setOnClickListener(listener)
+    fun setLastIconVisibility(visibility: Int) {
+        binding.lastIcon.visibility = visibility
     }
 
-    fun setStartIconOnClickListener(listener: OnClickListener) {
-        binding.startIcon.setOnClickListener(listener)
+    fun setLastIconOnClickListener(listener: OnClickListener) {
+        binding.lastIcon.setOnClickListener(listener)
     }
 
-    fun setEndIconDrawable(id: Int) {
-        binding.endIcon.setImageResource(id)
+    fun setLastIconDrawable(id: Int) {
+        binding.lastIcon.setImageResource(id)
     }
 
-    fun setStartIconDrawable(id: Int) {
-        binding.startIcon.setImageResource(id)
+    fun setFirstIconVisibility(visibility: Int) {
+        binding.firstIcon.visibility = visibility
+    }
+
+    fun setFirstIconListener(listener: OnClickListener) {
+        binding.firstIcon.setOnClickListener(listener)
+    }
+
+    fun setFirstIconDrawable(id: Int) {
+        binding.firstIcon.setImageResource(id)
     }
 }

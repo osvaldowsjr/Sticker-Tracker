@@ -10,6 +10,6 @@
     <color name="secondary_color">#E1DEDA</color>
     <color name="main_shade_700">#DE1749</color>
     <color name="secondary_shade_700">#C8C3BC</color>
-    <color name="background_color">#B6B1A5</color>
-    <color name="text_color_value">#25040C</color>
+    <color name="background_color">#161512</color>
+    <color name="text_color_value">#EDEBE9</color>
 </resources>

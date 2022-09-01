@@ -1,0 +1,27 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:background="?attr/colorOnBackground"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:id="@+id/ivCountry"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="15dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:src="@drawable/eng" />
+
+    <TextView
+        android:id="@+id/tvCountry"
+        android:layout_marginStart="10dp"
+        style="@style/ExtraSmallText"
+        app:layout_constraintStart_toEndOf="@id/ivCountry"
+        app:layout_constraintTop_toTopOf="@id/ivCountry"
+        app:layout_constraintBottom_toBottomOf="@id/ivCountry"
+        android:textSize="18sp"
+        tools:text="United Kingdom"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

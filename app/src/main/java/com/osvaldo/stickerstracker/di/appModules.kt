@@ -7,6 +7,7 @@ import com.osvaldo.stickerstracker.data.repository.NationRepository
 import com.osvaldo.stickerstracker.data.repository.NationRepositoryImpl
 import com.osvaldo.stickerstracker.ui.addStickers.AddingViewModel
 import com.osvaldo.stickerstracker.ui.cameraScan.CameraViewModel
+import com.osvaldo.stickerstracker.ui.filter.FilterViewModel
 import com.osvaldo.stickerstracker.ui.information.InformationViewModel
 import com.osvaldo.stickerstracker.ui.main.MainViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -26,4 +27,5 @@ val dataModule = module {
     viewModel { AddingViewModel(get()) }
     viewModel { CameraViewModel(get()) }
     viewModel { InformationViewModel(get()) }
+    viewModel { FilterViewModel(get()) }
 }

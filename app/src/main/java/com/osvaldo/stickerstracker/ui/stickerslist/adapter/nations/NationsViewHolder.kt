@@ -3,6 +3,7 @@ package com.osvaldo.stickerstracker.ui.stickerslist.adapter.nations
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.osvaldo.stickerstracker.data.model.Nation
+import com.osvaldo.stickerstracker.data.model.getFlag
 import com.osvaldo.stickerstracker.databinding.NationLayoutBinding
 import com.osvaldo.stickerstracker.ui.stickerslist.adapter.stickers.StickersAdapter
 
@@ -13,7 +14,7 @@ class NationsViewHolder(itemView: NationLayoutBinding) : RecyclerView.ViewHolder
     val playersList = itemView.playersList
 
     fun bind(nation: Nation) {
-        imageFlag.setImageResource(nation.nationFlag)
+        imageFlag.setImageResource(nation.nationEnum.getFlag())
         nationName.text = nation.nationName
         createAdapter(nation)
     }

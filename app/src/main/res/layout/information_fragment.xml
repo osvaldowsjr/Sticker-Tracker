@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="?attr/colorOnBackground"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -12,8 +14,7 @@
 
     <TextView
         android:id="@+id/sticker_obtained"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/ExtraSmallText"
         android:layout_marginStart="10dp"
         android:layout_marginTop="20dp"
         android:text="Figurinhas já obtidas"
@@ -22,8 +23,7 @@
 
     <TextView
         android:id="@+id/sticker_ratio"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/ExtraSmallText"
         android:layout_marginEnd="10dp"
         android:text="@string/sticker_completion"
         app:layout_constraintEnd_toEndOf="@+id/progressBar"
@@ -46,28 +46,29 @@
 
     <TextView
         android:id="@+id/nation_most_obtained"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/ExtraSmallText"
         android:layout_marginTop="20dp"
         android:text="Nação com mais figurinhas:"
         app:layout_constraintStart_toStartOf="@+id/sticker_obtained"
         app:layout_constraintTop_toBottomOf="@id/progressBar" />
 
-    <ImageView
-        android:id="@+id/nation_flag"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/most_obtained_nations"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintEnd_toEndOf="@+id/sticker_ratio"
         app:layout_constraintStart_toStartOf="@id/nation_most_obtained"
         app:layout_constraintTop_toBottomOf="@id/nation_most_obtained"
-        android:src="@drawable/not_found"/>
+        app:layout_constraintBottom_toBottomOf="@id/middle"
+        tools:itemCount="3"
+        tools:listItem="@layout/most_obtained_layout" />
 
-    <TextView
-        android:id="@+id/nation_name"
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/middle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        app:layout_constraintBottom_toBottomOf="@+id/nation_flag"
-        app:layout_constraintStart_toEndOf="@+id/nation_flag"
-        app:layout_constraintTop_toTopOf="@+id/nation_flag" />
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent=".5"
+        tools:viewBindingIgnore="true" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

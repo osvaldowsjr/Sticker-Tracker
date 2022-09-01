@@ -16,16 +16,16 @@ class InformationViewModel(
 
     val allNations = repository.allNation
     val albumCompletion = SmoothedMutableLiveData<Pair<Int,Int>>(SMOOTHING_DURATION)
-    val nationMostObtained = SmoothedMutableLiveData<Nation>(SMOOTHING_DURATION)
+    val nationMostObtained = SmoothedMutableLiveData<List<Nation>>(SMOOTHING_DURATION)
 
     fun getAlbumCompletion() {
-        viewModelScope.launch {
+        viewModelScope.launch(coroutineDispatcher) {
             albumCompletion.postValue(allNations.value?.let { repository.getAlbumCompletion(it) })
         }
     }
 
     fun getMostObtained(){
-        viewModelScope.launch {
+        viewModelScope.launch(coroutineDispatcher) {
             nationMostObtained.postValue(allNations.value?.let { repository.getMostCompletedNation(it) })
         }
     }
