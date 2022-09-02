@@ -34,7 +34,7 @@
     <fragment
         android:id="@+id/cameraFragment"
         tools:layout="@layout/camera_fragment"
-        android:name="com.osvaldo.stickerstracker.ui.cameraScan.StickerAddingFragment"
+        android:name="com.osvaldo.stickerstracker.ui.cameraScan.CameraFragment"
         android:label="CameraFragment" />
     <fragment
         android:id="@+id/informationFragment"
@@ -45,14 +45,5 @@
         android:id="@+id/filterFragment"
         tools:layout="@layout/filter_fragment"
         android:name="com.osvaldo.stickerstracker.ui.filter.FilterFragment"
-        android:label="FilterFragment" >
-        <action
-            android:id="@+id/action_filterFragment_to_sharingFragment"
-            app:destination="@id/sharingFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/sharingFragment"
-        tools:layout="@layout/share_fragment"
-        android:name="com.osvaldo.stickerstracker.ui.sharing.SharingFragment"
-        android:label="SharingFragment" />
+        android:label="FilterFragment" />
 </navigation>
