@@ -1,5 +1,7 @@
-package com.osvaldo.stickerstracker.ui.cameraScan
+package com.osvaldo.stickerstracker.utils
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.graphics.*
 import android.util.DisplayMetrics
 import android.view.SurfaceHolder
@@ -10,9 +12,10 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.MutableLiveData
+import com.osvaldo.stickerstracker.utils.camera.QRCodeAnalyzer
 import com.osvaldo.stickerstracker.utils.camera.ScopedExecutor
 import com.osvaldo.stickerstracker.utils.camera.TextAnalyzer
-import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import kotlin.math.abs
@@ -25,11 +28,10 @@ abstract class CameraFunctions : Fragment() {
     companion object {
         private const val RATIO_4_3_VALUE = 4.0 / 3.0
         private const val RATIO_16_9_VALUE = 16.0 / 9.0
-        const val DESIRED_WIDTH_CROP_PERCENT = 70
-        const val DESIRED_HEIGHT_CROP_PERCENT = 90
+        const val REQUEST_CODE_PERMISSIONS = 10
+        val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
     }
 
-    val cameraViewModel: CameraViewModel by viewModel()
     private lateinit var cameraExecutor: ExecutorService
     private lateinit var scopedExecutor: ScopedExecutor
     var displayId: Int = -1
@@ -42,21 +44,81 @@ abstract class CameraFunctions : Fragment() {
         scopedExecutor.shutdown()
     }
 
-    fun restartCamera(previewView: PreviewView) {
-        setUpCamera(previewView)
-    }
-
-    fun setUpCamera(previewView: PreviewView) {
+    fun startQRCode(
+        previewView: PreviewView,
+        mutableLiveData: MutableLiveData<String>,
+    ) {
         cameraExecutor = Executors.newSingleThreadExecutor()
         scopedExecutor = ScopedExecutor(cameraExecutor)
         val cameraProviderFuture = ProcessCameraProvider.getInstance(requireContext())
         cameraProviderFuture.addListener({
             cameraProvider = cameraProviderFuture.get()
-            bindCameraUseCases(previewView)
+            useCaseQrCode(
+                previewView,
+                mutableLiveData,
+            )
         }, ContextCompat.getMainExecutor(requireContext()))
     }
 
-    private fun bindCameraUseCases(previewView: PreviewView) {
+    private fun useCaseQrCode(
+        previewView: PreviewView,
+        mutableLiveData: MutableLiveData<String>,
+    ) {
+        val cameraProvider = cameraProvider
+            ?: throw IllegalStateException("Camera initialization failed.")
+
+        val metrics = DisplayMetrics().also { previewView.display.getRealMetrics(it) }
+        val screenAspectRatio = aspectRatio(metrics.widthPixels, metrics.heightPixels)
+
+        val rotation = previewView.display.rotation
+
+        val preview = Preview.Builder()
+            .setTargetAspectRatio(screenAspectRatio)
+            .setTargetRotation(rotation)
+            .build()
+
+        imageAnalyzer = ImageAnalysis.Builder()
+            .setTargetAspectRatio(screenAspectRatio)
+            .setTargetRotation(previewView.display.rotation)
+            .build()
+
+        imageAnalyzer!!.setAnalyzer(
+            cameraExecutor,
+            QRCodeAnalyzer(
+                lifecycle,
+                mutableLiveData,
+            )
+        )
+
+        startCamera(cameraProvider, preview, previewView)
+    }
+
+    fun startAddingSticker(
+        previewView: PreviewView,
+        mutableLiveData: MutableLiveData<String>,
+        DESIRED_WIDTH_CROP_PERCENT: Int,
+        DESIRED_HEIGHT_CROP_PERCENT: Int
+    ) {
+        cameraExecutor = Executors.newSingleThreadExecutor()
+        scopedExecutor = ScopedExecutor(cameraExecutor)
+        val cameraProviderFuture = ProcessCameraProvider.getInstance(requireContext())
+        cameraProviderFuture.addListener({
+            cameraProvider = cameraProviderFuture.get()
+            useCaseStickerAdding(
+                previewView,
+                mutableLiveData,
+                DESIRED_WIDTH_CROP_PERCENT,
+                DESIRED_HEIGHT_CROP_PERCENT
+            )
+        }, ContextCompat.getMainExecutor(requireContext()))
+    }
+
+    private fun useCaseStickerAdding(
+        previewView: PreviewView,
+        mutableLiveData: MutableLiveData<String>,
+        DESIRED_WIDTH_CROP_PERCENT: Int,
+        DESIRED_HEIGHT_CROP_PERCENT: Int
+    ) {
         val cameraProvider = cameraProvider
             ?: throw IllegalStateException("Camera initialization failed.")
 
@@ -79,17 +141,24 @@ abstract class CameraFunctions : Fragment() {
                 it.setAnalyzer(
                     cameraExecutor, TextAnalyzer(
                         lifecycle,
-                        cameraViewModel.sourceText,
-                        cameraViewModel.imageCropPercentages
+                        mutableLiveData,
+                        Pair(DESIRED_WIDTH_CROP_PERCENT, DESIRED_HEIGHT_CROP_PERCENT)
                     )
                 )
             }
 
+        startCamera(cameraProvider, preview, previewView)
+    }
+
+    private fun startCamera(
+        cameraProvider: ProcessCameraProvider,
+        preview: Preview,
+        previewView: PreviewView
+    ) {
         val cameraSelector =
             CameraSelector.Builder().requireLensFacing(CameraSelector.LENS_FACING_BACK).build()
 
         cameraProvider.unbindAll()
-
         camera = cameraProvider.bindToLifecycle(
             this, cameraSelector, preview, imageAnalyzer
         )
@@ -106,13 +175,13 @@ abstract class CameraFunctions : Fragment() {
         return AspectRatio.RATIO_16_9
     }
 
-    fun SurfaceView.setupOverlay() {
+    fun SurfaceView.setupOverlay(overlayText: String, width: Int, height: Int) {
         setZOrderOnTop(true)
         holder.setFormat(PixelFormat.TRANSPARENT)
         holder.addCallback(object : SurfaceHolder.Callback {
             override fun surfaceCreated(p0: SurfaceHolder) {
                 holder?.let {
-                    drawOverlay(it)
+                    drawOverlay(it, overlayText, width, height)
                 }
             }
 
@@ -126,7 +195,10 @@ abstract class CameraFunctions : Fragment() {
     }
 
     private fun drawOverlay(
-        holder: SurfaceHolder
+        holder: SurfaceHolder,
+        overlayText: String,
+        width: Int,
+        height: Int
     ) {
         val canvas = holder.lockCanvas()
         val bgPaint = Paint().apply {
@@ -145,10 +217,10 @@ abstract class CameraFunctions : Fragment() {
         val surfaceHeight = holder.surfaceFrame.height()
 
         val cornerRadius = 25f
-        val rectTop = surfaceHeight * DESIRED_HEIGHT_CROP_PERCENT / 2 / 100f
-        val rectLeft = surfaceWidth * DESIRED_WIDTH_CROP_PERCENT / 2 / 100f
-        val rectRight = surfaceWidth * (1 - DESIRED_WIDTH_CROP_PERCENT / 2 / 100f)
-        val rectBottom = surfaceHeight * (1 - DESIRED_HEIGHT_CROP_PERCENT / 2 / 100f)
+        val rectTop = surfaceHeight * width / 2 / 100f
+        val rectLeft = surfaceWidth * width / 2 / 100f
+        val rectRight = surfaceWidth * (1 - width / 2 / 100f)
+        val rectBottom = surfaceHeight * (1 - height / 2 / 100f)
         val rect = RectF(rectLeft, rectTop, rectRight, rectBottom)
         canvas.drawRoundRect(
             rect, cornerRadius, cornerRadius, rectPaint
@@ -160,12 +232,17 @@ abstract class CameraFunctions : Fragment() {
         textPaint.color = Color.WHITE
         textPaint.textSize = 50F
 
-        val overlayText = "Coloque o número da figurinha na caixa"
         val textBounds = Rect()
         textPaint.getTextBounds(overlayText, 0, overlayText.length, textBounds)
         val textX = (surfaceWidth - textBounds.width()) / 2f
         val textY = rectBottom + textBounds.height() + 15f // put text below rect and 15f padding
         canvas.drawText(overlayText, textX, textY, textPaint)
         holder.unlockCanvasAndPost(canvas)
+    }
+
+    fun allPermissionsGranted() = REQUIRED_PERMISSIONS.all {
+        ContextCompat.checkSelfPermission(
+            requireContext(), it
+        ) == PackageManager.PERMISSION_GRANTED
     }
 }

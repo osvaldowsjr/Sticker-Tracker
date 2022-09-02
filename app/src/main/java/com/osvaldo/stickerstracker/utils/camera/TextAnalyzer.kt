@@ -13,7 +13,7 @@ import com.google.mlkit.vision.text.TextRecognition
 class TextAnalyzer(
     lifecycle: Lifecycle,
     private val result: MutableLiveData<String>,
-    private val imageCropPercentages: MutableLiveData<Pair<Int, Int>>
+    private var imageCropPercentages: Pair<Int, Int>?
 ) : ImageAnalysis.Analyzer {
 
     private val detector = TextRecognition.getClient(TextReconOptions())
@@ -36,15 +36,15 @@ class TextAnalyzer(
         val convertImageToBitmap = ImageUtils.convertYuv420888ImageToBitmap(mediaImage)
         val cropRect = Rect(0, 0, imageWidth, imageHeight)
 
-        val currentCropPercentages = imageCropPercentages.value ?: return
+        val currentCropPercentages = imageCropPercentages ?: return
         if (actualAspectRatio > 3) {
             val originalHeightCropPercentage = currentCropPercentages.first
             val originalWidthCropPercentage = currentCropPercentages.second
-            imageCropPercentages.value =
+            imageCropPercentages =
                 Pair(originalHeightCropPercentage / 2, originalWidthCropPercentage)
         }
 
-        val cropPercentages = imageCropPercentages.value ?: return
+        val cropPercentages = imageCropPercentages ?: return
         val heightCropPercent = cropPercentages.first
         val widthCropPercent = cropPercentages.second
         val (widthCrop, heightCrop) = when (rotationDegrees) {
