@@ -96,6 +96,7 @@ class SharingFragment : Fragment(R.layout.share_fragment) {
         }
 
         binding.send.setOnClickListener {
+            //Realizar verificacao de conexao antes de enviar
             sendHello()
         }
 
@@ -111,6 +112,7 @@ class SharingFragment : Fragment(R.layout.share_fragment) {
     }
 
     fun sendHello() {
+        //enviar informacoes
         connectionsClient.sendPayload(
             opponentEndpointId!!,
             Payload.fromBytes(binding.myNick.text.toString().toByteArray(UTF_8))
@@ -119,6 +121,7 @@ class SharingFragment : Fragment(R.layout.share_fragment) {
 
     private val payloadCallback: PayloadCallback = object : PayloadCallback() {
         override fun onPayloadReceived(endpointId: String, payload: Payload) {
+            //receber informacoes e traduzir
             payload.asBytes()?.let {
                 Toast.makeText(requireContext(), String(it, UTF_8), Toast.LENGTH_LONG).show()
             }
@@ -134,6 +137,9 @@ class SharingFragment : Fragment(R.layout.share_fragment) {
     private val connectionLifecycleCallback = object : ConnectionLifecycleCallback() {
         override fun onConnectionInitiated(endpointId: String, info: ConnectionInfo) {
             //LUGAR para gerir conexoes
+            //https://developers.google.com/nearby/connections/android/manage-connections
+
+            //Verificar o token, olhar o nome e o ID antes de aceitar
             connectionsClient.acceptConnection(endpointId, payloadCallback)
         }
 
@@ -154,7 +160,7 @@ class SharingFragment : Fragment(R.layout.share_fragment) {
         val options = AdvertisingOptions.Builder().setStrategy(STRATEGY).build()
         // Note: Advertising may fail. To keep this demo simple, we don't handle failures.
         connectionsClient.startAdvertising(
-            binding.myNick.text.toString(),
+            binding.myNick.text.toString(), // Lugar para setar endpointName
             "iAlbum Qatar 2022",
             connectionLifecycleCallback,
             options
@@ -164,6 +170,12 @@ class SharingFragment : Fragment(R.layout.share_fragment) {
     private val endpointDiscoveryCallback = object : EndpointDiscoveryCallback() {
         override fun onEndpointFound(endpointId: String, info: DiscoveredEndpointInfo) {
             binding.possibleEndPoints.text = endpointId
+            info.endpointName + endpointId
+            //Lugar que vai usar para selecionar (RequestConnection vai aqui)
+            // Criar adapter que vai chamar o requestConnection em caso de click (Parametro = endpointId + endpointName)
+            //https://stackoverflow.com/questions/59975113/how-to-connect-3-devices-using-google-nearby-connection-apis
+
+            // EX de request
             //connectionsClient.requestConnection(
             //    binding.myNick.text.toString(),
             //    endpointId,
@@ -172,6 +184,7 @@ class SharingFragment : Fragment(R.layout.share_fragment) {
         }
 
         override fun onEndpointLost(endpointId: String) {
+            //Remove o id da lista
         }
     }
 
