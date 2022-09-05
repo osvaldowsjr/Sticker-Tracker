@@ -1,6 +1,7 @@
 package com.osvaldo.stickerstracker.ui.sharing
 
 import android.Manifest
+import android.content.DialogInterface
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -8,20 +9,22 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.nearby.Nearby
 import com.google.android.gms.nearby.connection.*
 import com.osvaldo.stickerstracker.R
+import com.osvaldo.stickerstracker.data.model.Connection
 import com.osvaldo.stickerstracker.databinding.ShareFragmentBinding
 import com.osvaldo.stickerstracker.ui.customViews.PermissionAlerter
+import com.osvaldo.stickerstracker.ui.sharing.adapter.EndpointAdapter
 import com.osvaldo.stickerstracker.utils.viewBinding
 import kotlin.text.Charsets.UTF_8
 
 
 class SharingFragment : Fragment(R.layout.share_fragment) {
-
-    val binding: ShareFragmentBinding by viewBinding(ShareFragmentBinding::bind)
 
     companion object {
         @RequiresApi(Build.VERSION_CODES.S)
@@ -34,7 +37,6 @@ class SharingFragment : Fragment(R.layout.share_fragment) {
             Manifest.permission.ACCESS_COARSE_LOCATION,
             Manifest.permission.ACCESS_FINE_LOCATION
         )
-
         private val REQUIRED_PERMISSIONS = arrayOf(
             Manifest.permission.BLUETOOTH,
             Manifest.permission.BLUETOOTH_ADMIN,
@@ -43,6 +45,7 @@ class SharingFragment : Fragment(R.layout.share_fragment) {
             Manifest.permission.ACCESS_COARSE_LOCATION,
             Manifest.permission.ACCESS_FINE_LOCATION
         )
+
     }
 
     val requester =
@@ -78,8 +81,13 @@ class SharingFragment : Fragment(R.layout.share_fragment) {
         }
     }
 
+    val binding: ShareFragmentBinding by viewBinding(ShareFragmentBinding::bind)
     private val STRATEGY = Strategy.P2P_POINT_TO_POINT
     private var opponentEndpointId: String? = null
+    private val endpointAdapter = EndpointAdapter { name, id ->
+        startConnection(name, id)
+    }
+    private val endpointList = mutableListOf<Connection>()
     private lateinit var connectionsClient: ConnectionsClient
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -93,6 +101,11 @@ class SharingFragment : Fragment(R.layout.share_fragment) {
 
         binding.disconect.setOnClickListener {
             opponentEndpointId?.let { connectionsClient.disconnectFromEndpoint(it) }
+        }
+
+        binding.endpoints.apply {
+            adapter = endpointAdapter
+            layoutManager = LinearLayoutManager(requireContext())
         }
 
         binding.send.setOnClickListener {
@@ -136,11 +149,22 @@ class SharingFragment : Fragment(R.layout.share_fragment) {
 
     private val connectionLifecycleCallback = object : ConnectionLifecycleCallback() {
         override fun onConnectionInitiated(endpointId: String, info: ConnectionInfo) {
-            //LUGAR para gerir conexoes
-            //https://developers.google.com/nearby/connections/android/manage-connections
-
-            //Verificar o token, olhar o nome e o ID antes de aceitar
-            connectionsClient.acceptConnection(endpointId, payloadCallback)
+            AlertDialog.Builder(requireContext())
+                .setTitle("Aceitar a conexão com " + info.endpointName)
+                .setMessage("Confirme o código nos dois dispositivos: " + info.authenticationDigits)
+                .setPositiveButton(
+                    "Aceitar"
+                ) { _: DialogInterface?, _: Int ->
+                    Nearby.getConnectionsClient(requireContext())
+                        .acceptConnection(endpointId, payloadCallback)
+                }
+                .setNegativeButton(
+                    android.R.string.cancel
+                ) { _: DialogInterface?, _: Int ->
+                    Nearby.getConnectionsClient(requireContext()).rejectConnection(endpointId)
+                }
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show()
         }
 
         override fun onConnectionResult(endpointId: String, result: ConnectionResolution) {
@@ -158,7 +182,6 @@ class SharingFragment : Fragment(R.layout.share_fragment) {
 
     private fun startAdvertising() {
         val options = AdvertisingOptions.Builder().setStrategy(STRATEGY).build()
-        // Note: Advertising may fail. To keep this demo simple, we don't handle failures.
         connectionsClient.startAdvertising(
             binding.myNick.text.toString(), // Lugar para setar endpointName
             "iAlbum Qatar 2022",
@@ -167,29 +190,30 @@ class SharingFragment : Fragment(R.layout.share_fragment) {
         )
     }
 
-    private val endpointDiscoveryCallback = object : EndpointDiscoveryCallback() {
-        override fun onEndpointFound(endpointId: String, info: DiscoveredEndpointInfo) {
-            binding.possibleEndPoints.text = endpointId
-            info.endpointName + endpointId
-            //Lugar que vai usar para selecionar (RequestConnection vai aqui)
-            // Criar adapter que vai chamar o requestConnection em caso de click (Parametro = endpointId + endpointName)
-            //https://stackoverflow.com/questions/59975113/how-to-connect-3-devices-using-google-nearby-connection-apis
-
-            // EX de request
-            //connectionsClient.requestConnection(
-            //    binding.myNick.text.toString(),
-            //    endpointId,
-            //    connectionLifecycleCallback
-            //)
-        }
-
-        override fun onEndpointLost(endpointId: String) {
-            //Remove o id da lista
-        }
-    }
-
     private fun startDiscovery() {
         val options = DiscoveryOptions.Builder().setStrategy(STRATEGY).build()
         connectionsClient.startDiscovery("iAlbum Qatar 2022", endpointDiscoveryCallback, options)
+    }
+
+    private fun startConnection(name: String, id: String) {
+        connectionsClient.requestConnection(
+            name, id, connectionLifecycleCallback
+        )
+    }
+
+    private val endpointDiscoveryCallback = object : EndpointDiscoveryCallback() {
+        override fun onEndpointFound(endpointId: String, info: DiscoveredEndpointInfo) {
+            endpointList.add(Connection(info.endpointName, endpointId))
+            endpointAdapter.submitList(endpointList)
+            endpointAdapter.notifyItemInserted(endpointList.lastIndex)
+        }
+
+        override fun onEndpointLost(endpointId: String) {
+            for (i in endpointList.indices) {
+                if (endpointList[i].endpointId == (endpointId)) {
+                    endpointList.removeAt(i)
+                }
+            }
+        }
     }
 }
