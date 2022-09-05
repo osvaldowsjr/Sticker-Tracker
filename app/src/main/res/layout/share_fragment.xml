@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_main_container"
+    android:background="?attr/colorOnBackground"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -14,37 +15,24 @@
         android:layout_marginTop="40dp"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/send"
-        android:layout_width="match_parent"
-        android:enabled="false"
-        android:layout_height="wrap_content"
-        android:text="Enviar"
-        app:layout_constraintBottom_toTopOf="@id/disconect" />
-
-    <Button
-        android:id="@+id/discover"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Procurar"
-        app:layout_constraintBottom_toBottomOf="parent" />
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/endpoints"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginHorizontal="20dp"
+        android:layout_marginBottom="20dp"
         android:layout_marginTop="10dp"
-        app:layout_constraintBottom_toTopOf="@+id/send"
+        app:layout_constraintBottom_toTopOf="@+id/shareList"
         app:layout_constraintTop_toBottomOf="@id/myNick"
         tools:layout_editor_absoluteX="20dp" />
 
     <Button
-        android:id="@+id/disconect"
+        android:id="@+id/shareList"
+        android:layout_marginHorizontal="20dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="acabar"
-        app:layout_constraintBottom_toTopOf="@id/discover" />
-
+        android:layout_marginBottom="20dp"
+        android:text="@string/search_albums"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_height="wrap_content" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

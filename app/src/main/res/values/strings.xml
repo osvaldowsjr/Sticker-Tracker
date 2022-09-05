@@ -21,4 +21,12 @@
     <string name="sticker_list">Lista de figurinhas</string>
     <string name="sticker_repeated">Figurinhas repetidas</string>
     <string name="sticker_missing">Figurinhas faltantes</string>
+    <string name="search_albums">Procurar álbuns</string>
+    <string name="dialog_title">Como funciona?</string>
+    <string name="explanation">Ao clicar no botão, você poderá estabelecer a conexão com seu colega e compartilhar sua lista de figurinhas!</string>
+    <string name="cancel">cancelar</string>
+    <string name="accept">OK</string>
+    <string name="sticker_going_to_receive">Figurinha a receber</string>
+    <string name="sticker_going_to_give">Figurinha a dar</string>
+    <string name="confirm">confirmar</string>
 </resources>

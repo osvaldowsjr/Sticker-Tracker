@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/colorOnBackground">
+
+    <TextView
+        android:id="@+id/sticker_receive_title"
+        style="@style/ExtraSmallText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/sticker_going_to_receive"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/close"
+        tools:ignore="true" />
+
+    <TextView
+        android:id="@+id/sticker_to_receive"
+        style="@style/SmallText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        app:layout_constraintEnd_toEndOf="@+id/sticker_receive_title"
+        app:layout_constraintStart_toStartOf="@+id/sticker_receive_title"
+        app:layout_constraintTop_toBottomOf="@id/sticker_receive_title"
+        tools:text="FWC 18" />
+
+    <TextView
+        android:id="@+id/sticker_give_title"
+        style="@style/ExtraSmallText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/sticker_going_to_give"
+        app:layout_constraintEnd_toEndOf="@+id/sticker_receive_title"
+        app:layout_constraintStart_toStartOf="@+id/sticker_to_receive"
+        app:layout_constraintTop_toBottomOf="@+id/sticker_to_receive"
+        tools:ignore="true" />
+
+    <Spinner
+        android:id="@+id/sticker_to_give"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        app:layout_constraintEnd_toEndOf="@+id/sticker_give_title"
+        app:layout_constraintStart_toStartOf="@+id/sticker_give_title"
+        app:layout_constraintTop_toBottomOf="@+id/sticker_give_title" />
+
+    <Button
+        android:id="@+id/confirm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/confirm"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/sticker_to_give"
+        android:layout_margin="20dp"/>
+
+    <ImageView
+        android:id="@+id/close"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_margin="10dp"
+        android:src="@drawable/icon_close"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

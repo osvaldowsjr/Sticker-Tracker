@@ -10,6 +10,8 @@ import com.osvaldo.stickerstracker.ui.cameraScan.CameraViewModel
 import com.osvaldo.stickerstracker.ui.filter.FilterViewModel
 import com.osvaldo.stickerstracker.ui.information.InformationViewModel
 import com.osvaldo.stickerstracker.ui.main.MainViewModel
+import com.osvaldo.stickerstracker.ui.sharing.SharingViewModel
+import com.osvaldo.stickerstracker.ui.swap.SwapViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import org.koin.android.ext.koin.androidContext
@@ -28,4 +30,6 @@ val dataModule = module {
     viewModel { CameraViewModel(get()) }
     viewModel { InformationViewModel(get()) }
     viewModel { FilterViewModel(get()) }
+    viewModel { SharingViewModel(get()) }
+    viewModel { SwapViewModel(get()) }
 }

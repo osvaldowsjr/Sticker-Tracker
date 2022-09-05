@@ -16,4 +16,5 @@ interface NationRepository {
     suspend fun indexPlayerToAdd(nationString: String): Int
     suspend fun getRepeatedPlayers(nations: List<Nation>): MutableList<Player>
     suspend fun getMissingPlayers(nations: List<Nation>): MutableList<Player>
+    suspend fun swapStickers(stickerToGive : String, stickerToReceive : String)
 }

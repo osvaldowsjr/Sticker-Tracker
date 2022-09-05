@@ -101,6 +101,34 @@ class NationRepositoryImpl(private val dataSource: NationDataSource) : NationRep
             listOfPlayers
         }
 
+    override suspend fun swapStickers(stickerToGive: String, stickerToReceive: String) =
+        withContext(Dispatchers.IO) {
+            updateGive(stickerToGive)
+            updateReceive(stickerToReceive)
+        }
+
+    private suspend fun updateGive(stickerToGive: String) {
+        val result = fixStickerStructure(stickerToGive)
+        val index = indexPlayerToAdd(result)
+        val nation = selectNation(result)
+        nation.listOfPlayers[index].amount--
+        updateNation(nation)
+    }
+
+    private fun fixStickerStructure(sticker: String): String {
+        val nationString = sticker.substring(0, 3).trim()
+        val numberString = Integer.parseInt(sticker.substring(3).trim())
+        return "$nationString $numberString"
+    }
+
+    private suspend fun updateReceive(stickerToReceive: String) {
+        val result = fixStickerStructure(stickerToReceive)
+        val index = indexPlayerToAdd(result)
+        val nation = selectNation(result)
+        nation.listOfPlayers[index].amount++
+        updateNation(nation)
+    }
+
     override suspend fun updateNation(nation: Nation) = withContext(Dispatchers.IO) {
         dataSource.updateNation(nation)
     }
