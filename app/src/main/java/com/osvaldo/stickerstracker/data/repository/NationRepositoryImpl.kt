@@ -117,7 +117,7 @@ class NationRepositoryImpl(private val dataSource: NationDataSource) : NationRep
 
     private fun fixStickerStructure(sticker: String): String {
         val nationString = sticker.substring(0, 3).trim()
-        val numberString = Integer.parseInt(sticker.substring(3).trim())
+        var numberString = sticker.substring(3).trim().removePrefix("0")
         return "$nationString $numberString"
     }
 
