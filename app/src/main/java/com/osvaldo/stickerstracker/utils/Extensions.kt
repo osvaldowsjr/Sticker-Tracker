@@ -1,5 +1,5 @@
 package com.osvaldo.stickerstracker.utils
 
-fun String.removeSpaces() : String{
-    return this.replace(" ","")
+fun String.removeSpaces(): String {
+    return this.replace(" ", "")
 }

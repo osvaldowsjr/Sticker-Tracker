@@ -1,7 +1,6 @@
 package com.osvaldo.stickerstracker.ui.cameraScan
 
 import android.graphics.*
-import android.util.DisplayMetrics
 import android.view.SurfaceHolder
 import android.view.SurfaceView
 import androidx.camera.core.*
@@ -9,7 +8,8 @@ import androidx.camera.core.Camera
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
+import androidx.window.layout.WindowMetricsCalculator
+import com.osvaldo.stickerstracker.utils.PermissionManager
 import com.osvaldo.stickerstracker.utils.camera.ScopedExecutor
 import com.osvaldo.stickerstracker.utils.camera.TextAnalyzer
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -20,7 +20,7 @@ import kotlin.math.ln
 import kotlin.math.max
 import kotlin.math.min
 
-abstract class CameraFunctions : Fragment() {
+abstract class CameraFunctions : PermissionManager(PermissionsNeeded.CAMERA) {
 
     companion object {
         private const val RATIO_4_3_VALUE = 4.0 / 3.0
@@ -60,8 +60,9 @@ abstract class CameraFunctions : Fragment() {
         val cameraProvider = cameraProvider
             ?: throw IllegalStateException("Camera initialization failed.")
 
-        val metrics = DisplayMetrics().also { previewView.display.getRealMetrics(it) }
-        val screenAspectRatio = aspectRatio(metrics.widthPixels, metrics.heightPixels)
+        val metrics = WindowMetricsCalculator.getOrCreate()
+            .computeCurrentWindowMetrics(requireActivity()).bounds
+        val screenAspectRatio = aspectRatio(metrics.width(), metrics.height())
 
         val rotation = previewView.display.rotation
 

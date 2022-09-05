@@ -1,94 +1,46 @@
 package com.osvaldo.stickerstracker.ui.sharing
 
-import android.Manifest
 import android.content.DialogInterface
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
-import androidx.core.app.ActivityCompat
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.nearby.Nearby
 import com.google.android.gms.nearby.connection.*
 import com.osvaldo.stickerstracker.R
 import com.osvaldo.stickerstracker.data.model.Connection
 import com.osvaldo.stickerstracker.databinding.ShareFragmentBinding
-import com.osvaldo.stickerstracker.ui.customViews.PermissionAlerter
 import com.osvaldo.stickerstracker.ui.sharing.adapter.EndpointAdapter
+import com.osvaldo.stickerstracker.utils.PermissionManager
 import com.osvaldo.stickerstracker.utils.viewBinding
 import kotlin.text.Charsets.UTF_8
 
-
-class SharingFragment : Fragment(R.layout.share_fragment) {
-
-    companion object {
-        @RequiresApi(Build.VERSION_CODES.S)
-        private val REQUIRED_PERMISSIONS_12UP = arrayOf(
-            Manifest.permission.BLUETOOTH_SCAN,
-            Manifest.permission.BLUETOOTH_ADVERTISE,
-            Manifest.permission.BLUETOOTH_CONNECT,
-            Manifest.permission.ACCESS_WIFI_STATE,
-            Manifest.permission.CHANGE_WIFI_STATE,
-            Manifest.permission.ACCESS_COARSE_LOCATION,
-            Manifest.permission.ACCESS_FINE_LOCATION
-        )
-        private val REQUIRED_PERMISSIONS = arrayOf(
-            Manifest.permission.BLUETOOTH,
-            Manifest.permission.BLUETOOTH_ADMIN,
-            Manifest.permission.ACCESS_WIFI_STATE,
-            Manifest.permission.CHANGE_WIFI_STATE,
-            Manifest.permission.ACCESS_COARSE_LOCATION,
-            Manifest.permission.ACCESS_FINE_LOCATION
-        )
-
-    }
-
-    val requester =
-        registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { map ->
-            map.forEach {
-                val permission = it.key
-                val isGaranted = it.value
-                when {
-                    isGaranted -> {
-
-                    }
-                    ActivityCompat.shouldShowRequestPermissionRationale(
-                        requireActivity(),
-                        permission
-                    ) -> {
-                        PermissionAlerter.providesAlertDialog(
-                            requireContext()
-                        ) { requestPermission() }
-                            .show()
-                    }
-                    else -> {
-                        Toast.makeText(requireContext(), "Falha", Toast.LENGTH_LONG).show()
-                    }
-                }
-            }
-        }
-
-    private fun requestPermission() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            requester.launch(REQUIRED_PERMISSIONS_12UP)
-        } else {
-            requester.launch(REQUIRED_PERMISSIONS)
-        }
-    }
+class SharingFragment : PermissionManager(PermissionsNeeded.NEARBY) {
 
     val binding: ShareFragmentBinding by viewBinding(ShareFragmentBinding::bind)
-    private val STRATEGY = Strategy.P2P_POINT_TO_POINT
+    private val strategy = Strategy.P2P_POINT_TO_POINT
     private var opponentEndpointId: String? = null
     private val endpointAdapter = EndpointAdapter { name, id ->
         startConnection(name, id)
     }
     private val endpointList = mutableListOf<Connection>()
     private lateinit var connectionsClient: ConnectionsClient
+
+    override fun isGaranted() {
+        // Do nothing
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        return inflater.inflate(R.layout.share_fragment, container, false)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -117,14 +69,10 @@ class SharingFragment : Fragment(R.layout.share_fragment) {
 
     override fun onStart() {
         super.onStart()
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            requester.launch(REQUIRED_PERMISSIONS_12UP)
-        } else {
-            requester.launch(REQUIRED_PERMISSIONS)
-        }
+        requestPermission()
     }
 
-    fun sendHello() {
+    private fun sendHello() {
         //enviar informacoes
         connectionsClient.sendPayload(
             opponentEndpointId!!,
@@ -181,7 +129,7 @@ class SharingFragment : Fragment(R.layout.share_fragment) {
     }
 
     private fun startAdvertising() {
-        val options = AdvertisingOptions.Builder().setStrategy(STRATEGY).build()
+        val options = AdvertisingOptions.Builder().setStrategy(strategy).build()
         connectionsClient.startAdvertising(
             binding.myNick.text.toString(), // Lugar para setar endpointName
             "iAlbum Qatar 2022",
@@ -191,7 +139,7 @@ class SharingFragment : Fragment(R.layout.share_fragment) {
     }
 
     private fun startDiscovery() {
-        val options = DiscoveryOptions.Builder().setStrategy(STRATEGY).build()
+        val options = DiscoveryOptions.Builder().setStrategy(strategy).build()
         connectionsClient.startDiscovery("iAlbum Qatar 2022", endpointDiscoveryCallback, options)
     }
 

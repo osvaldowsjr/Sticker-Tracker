@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 
 class SharingViewModel(
     private val repository: NationRepository,
-    internal val coroutineDispatcher: CoroutineDispatcher = Dispatchers.Main.immediate
+    private val coroutineDispatcher: CoroutineDispatcher = Dispatchers.Main.immediate
 ) : ViewModel() {
 
     val allNations = repository.allNation
@@ -23,7 +23,7 @@ class SharingViewModel(
         }
     }
 
-    fun getMissingPlayers(){
+    fun getMissingPlayers() {
         viewModelScope.launch(coroutineDispatcher) {
             listOfPlayers.postValue(allNations.value?.let { repository.getMissingPlayers(it) })
         }

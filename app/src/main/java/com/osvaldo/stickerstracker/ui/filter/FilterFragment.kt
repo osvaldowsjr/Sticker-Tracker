@@ -15,7 +15,7 @@ class FilterFragment : Fragment(R.layout.filter_fragment) {
 
     val binding: FilterFragmentBinding by viewBinding(FilterFragmentBinding::bind)
     private val filterViewModel: FilterViewModel by viewModel()
-    val stickersAdapter = StickersAdapter()
+    private val stickersAdapter = StickersAdapter()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

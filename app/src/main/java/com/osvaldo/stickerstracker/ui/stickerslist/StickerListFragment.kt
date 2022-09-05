@@ -42,7 +42,7 @@ class StickerListFragment : Fragment(R.layout.main_fragment) {
                 )
             }
             setBackIconDrawable(R.drawable.icon_filter)
-            setBackIconOnClickListener{
+            setBackIconOnClickListener {
                 findNavController().navigate(
                     StickerListFragmentDirections.actionMainFragmentToFilterFragment()
                 )

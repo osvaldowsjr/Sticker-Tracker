@@ -13,11 +13,7 @@ class CustomToolbar @JvmOverloads constructor(
     private var binding: CustomToolbarBinding =
         CustomToolbarBinding.inflate(LayoutInflater.from(context), this, true)
 
-    fun setBackIconVisibility(visibility: Int) {
-        binding.backIcon.visibility = visibility
-    }
-
-    fun setBackIconDrawable(id:Int){
+    fun setBackIconDrawable(id: Int) {
         binding.backIcon.setImageResource(id)
     }
 

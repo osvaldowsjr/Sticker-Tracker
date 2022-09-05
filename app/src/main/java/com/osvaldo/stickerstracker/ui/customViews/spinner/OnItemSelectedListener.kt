@@ -8,7 +8,7 @@ import androidx.lifecycle.MutableLiveData
 class OnItemSelectedListener : AdapterView.OnItemSelectedListener {
 
     private val _position = MutableLiveData(0)
-    val position : LiveData<Int> = _position
+    val position: LiveData<Int> = _position
 
     override fun onItemSelected(p0: AdapterView<*>?, p1: View?, positionSelected: Int, p3: Long) {
         _position.postValue(positionSelected)

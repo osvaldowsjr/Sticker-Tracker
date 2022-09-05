@@ -62,7 +62,7 @@ class InformationFragment : Fragment(R.layout.information_fragment) {
             binding.progressBar.progress = it.first
 
             binding.percentCompletion.text =
-                getString(R.string.percentage,infoViewModel.providePercentage(it))
+                getString(R.string.percentage, infoViewModel.providePercentage(it))
 
         }
     }

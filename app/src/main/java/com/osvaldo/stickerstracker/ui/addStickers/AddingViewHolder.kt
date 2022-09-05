@@ -6,9 +6,9 @@ import com.osvaldo.stickerstracker.databinding.AddingItemLayoutBinding
 
 class AddingViewHolder(itemView: AddingItemLayoutBinding) : RecyclerView.ViewHolder(itemView.root) {
     val name = itemView.stickerName
-    val amount = itemView.stickerAmount
-    val buttonPlus = itemView.buttonPlus
-    val buttonMinus = itemView.buttonMinus
+    private val amount = itemView.stickerAmount
+    private val buttonPlus = itemView.buttonPlus
+    private val buttonMinus = itemView.buttonMinus
 
     fun bind(item: Player) {
         name.text = item.number

@@ -5,7 +5,7 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
 class PlayerTypeConverter {
-    val gson = Gson()
+    private val gson = Gson()
 
     @TypeConverter
     fun stringToPlayersList(data: String): List<Player> {

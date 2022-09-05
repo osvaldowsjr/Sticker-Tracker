@@ -19,7 +19,7 @@ import kotlinx.coroutines.launch
 
 class CameraViewModel(
     private val repository: NationRepository,
-    internal val coroutineDispatcher: CoroutineDispatcher = Dispatchers.Main.immediate
+    private val coroutineDispatcher: CoroutineDispatcher = Dispatchers.Main.immediate
 ) : ViewModel() {
 
     val sourceText = SmoothedMutableLiveData<String>(SMOOTHING_DURATION)
@@ -78,7 +78,7 @@ class CameraViewModel(
     ) {
         if (nation.listOfPlayers[indexOfPlayer].amount > 1) {
             isRepeated.postValue(View.VISIBLE)
-        }else{
+        } else {
             isRepeated.postValue(View.GONE)
         }
     }

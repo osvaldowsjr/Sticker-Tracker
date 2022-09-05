@@ -1,24 +1,16 @@
 package com.osvaldo.stickerstracker.ui.cameraScan
 
-import android.Manifest
-import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.camera.view.PreviewView
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContextCompat
 import com.osvaldo.stickerstracker.R
 import com.osvaldo.stickerstracker.databinding.CameraFragmentBinding
 import com.osvaldo.stickerstracker.utils.viewBinding
 
 class CameraFragment : CameraFunctions() {
-    companion object {
-        private const val REQUEST_CODE_PERMISSIONS = 10
-        private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
-    }
 
     private lateinit var container: ConstraintLayout
     private lateinit var viewFinder: PreviewView
@@ -39,6 +31,7 @@ class CameraFragment : CameraFunctions() {
     override fun onStart() {
         super.onStart()
         setupObserver()
+        requestPermission()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -62,15 +55,6 @@ class CameraFragment : CameraFunctions() {
             cameraViewModel.addSticker(binding.srcText.text.toString())
         }
 
-        if (allPermissionsGranted()) {
-            viewFinder.post {
-                displayId = viewFinder.display.displayId
-                setUpCamera(viewFinder)
-            }
-        } else {
-            requestPermissions(REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS)
-        }
-
         binding.overlay.apply {
             setupOverlay()
         }
@@ -89,29 +73,10 @@ class CameraFragment : CameraFunctions() {
         }
     }
 
-    @Deprecated("Deprecated in Java")
-    override fun onRequestPermissionsResult(
-        requestCode: Int, permissions: Array<String>, grantResults: IntArray
-    ) {
-        if (requestCode == REQUEST_CODE_PERMISSIONS) {
-            if (allPermissionsGranted()) {
-                viewFinder.post {
-                    displayId = viewFinder.display.displayId
-                    setUpCamera(viewFinder)
-                }
-            } else {
-                Toast.makeText(
-                    context,
-                    "Permissions not granted by the user.",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
+    override fun isGaranted() {
+        viewFinder.post {
+            displayId = viewFinder.display.displayId
+            setUpCamera(viewFinder)
         }
-    }
-
-    private fun allPermissionsGranted() = REQUIRED_PERMISSIONS.all {
-        ContextCompat.checkSelfPermission(
-            requireContext(), it
-        ) == PackageManager.PERMISSION_GRANTED
     }
 }
