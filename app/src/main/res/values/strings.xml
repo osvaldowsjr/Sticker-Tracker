@@ -21,12 +21,20 @@
     <string name="sticker_list">Lista de figurinhas</string>
     <string name="sticker_repeated">Figurinhas repetidas</string>
     <string name="sticker_missing">Figurinhas faltantes</string>
-    <string name="search_albums">Procurar álbuns</string>
+    <string name="open_room">Abrir uma sala</string>
+    <string name="enter_room">Entrar em uma sala</string>
     <string name="dialog_title">Como funciona?</string>
-    <string name="explanation">Ao clicar no botão, você poderá estabelecer a conexão com seu colega e compartilhar sua lista de figurinhas!</string>
+    <string name="explanation">Um colecionador deverá abrir a sala enquanto o outro se conecta, dessa forma irão compartilhar seus álbuns!</string>
     <string name="cancel">cancelar</string>
     <string name="accept">OK</string>
     <string name="sticker_going_to_receive">Figurinha a receber</string>
     <string name="sticker_going_to_give">Figurinha a dar</string>
     <string name="confirm">confirmar</string>
+    <string name="perm_request_rationale_title">Você tem certeza?</string>
+    <string name="perm_request_rationale">Sem a permissão o app nào funcionará corretamente</string>
+    <string name="request_perm_again">Tentar novamente</string>
+    <string name="dismiss">cancelar</string>
+    <string name="amount_repeated">Quantidade de figurinhas repetidas</string>
+    <string name="name_edit_text">Nome</string>
+    <string name="room_opened">Sala aberta com nome: %1$s</string>
 </resources>

@@ -21,16 +21,14 @@ import java.lang.reflect.Type
 class SwapFragment : Fragment(R.layout.swap_fragment) {
 
     val binding: SwapFragmentBinding by viewBinding(SwapFragmentBinding::bind)
-    val args: SwapFragmentArgs by navArgs()
-    val swapViewModel: SwapViewModel by viewModel()
+    private val args: SwapFragmentArgs by navArgs()
+    private val swapViewModel: SwapViewModel by viewModel()
     private val swapAdapter = SwapAdapter { id -> showDialog(id) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val gson = Gson()
-        val collectionType: Type = object : TypeToken<Collection<Player?>?>() {}.type
-        val enums: Collection<Player> = gson.fromJson(args.friendList, collectionType)
-        swapViewModel.startFriendList(enums.toMutableList())
+        buildFriendList()
+        setupToolbar()
         swapViewModel.allNations.observe(viewLifecycleOwner) {
             Log.d("TAG", it[0].nationName)
             setupObservers()
@@ -39,6 +37,21 @@ class SwapFragment : Fragment(R.layout.swap_fragment) {
                 layoutManager = LinearLayoutManager(requireContext())
             }
         }
+    }
+
+    private fun setupToolbar() {
+        binding.toolbar.apply {
+            setBackIconOnClickListener{
+                requireActivity().onBackPressedDispatcher.onBackPressed()
+            }
+        }
+    }
+
+    private fun buildFriendList() {
+        val gson = Gson()
+        val collectionType: Type = object : TypeToken<Collection<Player?>?>() {}.type
+        val enums: Collection<Player> = gson.fromJson(args.friendList, collectionType)
+        swapViewModel.startFriendList(enums.toMutableList())
     }
 
     private fun showDialog(stickerNumber: String) {

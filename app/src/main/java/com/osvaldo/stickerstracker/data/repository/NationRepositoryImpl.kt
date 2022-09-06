@@ -107,6 +107,19 @@ class NationRepositoryImpl(private val dataSource: NationDataSource) : NationRep
             updateReceive(stickerToReceive)
         }
 
+    override suspend fun getAmountRepeated(listOfNation: List<Nation>): Int =
+        withContext(Dispatchers.IO) {
+            var amount = 0
+            listOfNation.forEach { nation ->
+                nation.listOfPlayers.forEach { player ->
+                    if (player.amount > 1) {
+                        amount += player.amount - 1
+                    }
+                }
+            }
+            amount
+        }
+
     private suspend fun updateGive(stickerToGive: String) {
         val result = fixStickerStructure(stickerToGive)
         val index = indexPlayerToAdd(result)

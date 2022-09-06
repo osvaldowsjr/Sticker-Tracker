@@ -19,10 +19,10 @@ class AddingFragment : Fragment(R.layout.adding_fragment) {
         super.onViewCreated(view, savedInstanceState)
 
         binding.toolbar.apply {
-            setFirstIconVisibility(View.GONE)
             setLastIconOnClickListener {
                 findNavController().navigate(AddingFragmentDirections.actionAddingFragmentToCameraFragment())
             }
+            setLastIconVisibility(View.VISIBLE)
             setLastIconDrawable(R.drawable.icon_camera)
             setBackIconOnClickListener { requireActivity().onBackPressedDispatcher.onBackPressed() }
         }

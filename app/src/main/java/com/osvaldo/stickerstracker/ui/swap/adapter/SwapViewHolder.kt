@@ -1,6 +1,5 @@
 package com.osvaldo.stickerstracker.ui.swap.adapter
 
-import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.osvaldo.stickerstracker.data.model.Player
 import com.osvaldo.stickerstracker.databinding.SwapLayoutBinding

@@ -16,7 +16,7 @@
         android:id="@+id/sticker_obtained"
         style="@style/ExtraSmallText"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="16dp"
         android:text="@string/sticker_obtained"
         app:layout_constraintStart_toStartOf="@+id/progressBar"
         app:layout_constraintTop_toBottomOf="@id/toolbar" />
@@ -28,13 +28,6 @@
         android:text="@string/sticker_completion"
         app:layout_constraintEnd_toEndOf="@+id/progressBar"
         app:layout_constraintTop_toTopOf="@+id/sticker_obtained" />
-
-    <TextView
-        android:id="@+id/percent_completion"
-        style="@style/ExtraSmallText"
-        android:text="@string/percentage"
-        app:layout_constraintStart_toStartOf="@+id/sticker_ratio"
-        app:layout_constraintTop_toBottomOf="@id/progressBar" />
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -52,12 +45,39 @@
         app:layout_constraintTop_toBottomOf="@id/sticker_obtained" />
 
     <TextView
+        android:id="@+id/percent_completion"
+        style="@style/ExtraSmallText"
+        android:text="@string/percentage"
+        app:layout_constraintStart_toStartOf="@+id/sticker_ratio"
+        app:layout_constraintTop_toBottomOf="@id/progressBar" />
+
+    <TextView
+        android:id="@+id/amount_repeated_title"
+        style="@style/ExtraSmallText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/amount_repeated"
+        app:layout_constraintStart_toStartOf="@id/nation_most_obtained"
+        app:layout_constraintTop_toBottomOf="@id/percent_completion" />
+
+    <TextView
+        android:id="@+id/amount_repeated"
+        style="@style/ExtraSmallText"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_height="wrap_content"
+        tools:text="1000"
+        app:layout_constraintTop_toBottomOf="@id/amount_repeated_title"
+        app:layout_constraintStart_toStartOf="@id/amount_repeated_title"/>
+
+    <TextView
         android:id="@+id/nation_most_obtained"
         style="@style/ExtraSmallText"
         android:layout_marginTop="20dp"
         android:text="@string/singular_nation"
         app:layout_constraintStart_toStartOf="@+id/sticker_obtained"
-        app:layout_constraintTop_toBottomOf="@+id/percent_completion" />
+        app:layout_constraintTop_toBottomOf="@+id/amount_repeated" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/most_obtained_nations"

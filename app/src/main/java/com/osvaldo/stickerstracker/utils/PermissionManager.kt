@@ -5,7 +5,7 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
-import com.osvaldo.stickerstracker.ui.customViews.PermissionAlerter
+import com.osvaldo.stickerstracker.ui.customViews.DialogProvider
 
 abstract class PermissionManager(private val permissionsNeeded: PermissionsNeeded) : Fragment() {
 
@@ -41,9 +41,10 @@ abstract class PermissionManager(private val permissionsNeeded: PermissionsNeede
                         requireActivity(),
                         permission
                     ) -> {
-                        PermissionAlerter.providesAlertDialog(
-                            requireContext()
-                        ) { requestPermission() }
+                        DialogProvider.providesAlertDialog(
+                            requireContext(),
+                            { requestPermission() },
+                            { requireActivity().onBackPressedDispatcher.onBackPressed() })
                             .show()
                     }
                     else -> {

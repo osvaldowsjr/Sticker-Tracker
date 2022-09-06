@@ -1,21 +1,19 @@
 package com.osvaldo.stickerstracker.ui.sharing
 
-import android.content.DialogInterface
 import android.os.Bundle
-import android.system.Os.accept
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AlertDialog
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.nearby.Nearby
 import com.google.android.gms.nearby.connection.*
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.osvaldo.stickerstracker.R
 import com.osvaldo.stickerstracker.data.model.Connection
 import com.osvaldo.stickerstracker.databinding.ShareFragmentBinding
+import com.osvaldo.stickerstracker.ui.customViews.DialogProvider
+import com.osvaldo.stickerstracker.ui.customViews.DialogProvider.providesConnectionDialog
 import com.osvaldo.stickerstracker.ui.sharing.adapter.EndpointAdapter
 import com.osvaldo.stickerstracker.utils.PermissionManager
 import com.osvaldo.stickerstracker.utils.viewBinding
@@ -32,7 +30,7 @@ class SharingFragment : PermissionManager(PermissionsNeeded.NEARBY) {
     }
     private val endpointList = mutableListOf<Connection>()
     private lateinit var connectionsClient: ConnectionsClient
-    private val sharingViewModel : SharingViewModel by viewModel()
+    private val sharingViewModel: SharingViewModel by viewModel()
 
     override fun isGaranted() {
         // Do nothing
@@ -48,45 +46,60 @@ class SharingFragment : PermissionManager(PermissionsNeeded.NEARBY) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        connectionsClient = Nearby.getConnectionsClient(requireContext())
+        connectionsClient = Nearby.getConnectionsClient(requireActivity())
 
-        binding.shareList.setOnClickListener {
-            startAdvertising()
+        binding.enterRoom.setOnClickListener {
+            showLoading()
             startDiscovery()
+        }
+
+        binding.openRoom.setOnClickListener {
+            showRoomName()
+            startAdvertising()
         }
 
         binding.endpoints.apply {
             adapter = endpointAdapter
             layoutManager = LinearLayoutManager(requireContext())
         }
+
+        binding.toolbar.setBackIconOnClickListener{
+            requireActivity().onBackPressedDispatcher.onBackPressed()
+        }
+    }
+
+    private fun showRoomName() {
+        binding.roomOpened.apply{
+            text = getString(R.string.room_opened, binding.myNick.text.toString())
+            visibility = View.VISIBLE
+        }
+    }
+
+    private fun hideRoomName() {
+        binding.roomOpened.visibility = View.GONE
+    }
+
+    private fun hideLoading() {
+        binding.loading.visibility = View.GONE
+    }
+
+    private fun showLoading() {
+        binding.loading.visibility = View.VISIBLE
     }
 
     override fun onStart() {
         super.onStart()
         requestPermission()
-        showExplanationDialog()
+        DialogProvider.providesExplanationDialog(
+            requireContext()
+        ) { requireActivity().onBackPressedDispatcher.onBackPressed() }.show()
 
-        sharingViewModel.allNations.observe(viewLifecycleOwner){
+        sharingViewModel.allNations.observe(viewLifecycleOwner) {
             sharingViewModel.getRepeatedPlayers(it)
         }
 
-        sharingViewModel.listOfPlayers.observe(viewLifecycleOwner){
-            Log.d("TAG",it.toString())
+        sharingViewModel.listOfPlayers.observe(viewLifecycleOwner) {
         }
-    }
-
-    private fun showExplanationDialog(){
-        MaterialAlertDialogBuilder(requireContext())
-            .setTitle(resources.getString(R.string.dialog_title))
-            .setMessage(resources.getString(R.string.explanation))
-            .setNeutralButton(resources.getString(R.string.cancel)) { dialog, which ->
-                dialog.dismiss()
-                requireActivity().onBackPressedDispatcher.onBackPressed()
-            }
-            .setPositiveButton(resources.getString(R.string.accept)) { dialog, which ->
-                dialog.dismiss()
-            }
-            .show()
     }
 
     override fun onStop() {
@@ -99,9 +112,8 @@ class SharingFragment : PermissionManager(PermissionsNeeded.NEARBY) {
         connectionsClient.stopAllEndpoints()
     }
 
-    private fun sendHello() {
-        //enviar informacoes
-        sharingViewModel.allNations.observe(viewLifecycleOwner){
+    private fun sendListMessage() {
+        sharingViewModel.allNations.observe(viewLifecycleOwner) {
             sharingViewModel.getRepeatedPlayers(it)
             connectionsClient.sendPayload(
                 opponentEndpointId!!,
@@ -130,28 +142,24 @@ class SharingFragment : PermissionManager(PermissionsNeeded.NEARBY) {
 
     private val connectionLifecycleCallback = object : ConnectionLifecycleCallback() {
         override fun onConnectionInitiated(endpointId: String, info: ConnectionInfo) {
-            AlertDialog.Builder(requireContext())
-                .setTitle("Aceitar a conexão")
-                .setMessage("Confirme o código nos dois dispositivos: " + info.authenticationDigits)
-                .setPositiveButton(
-                    "Aceitar"
-                ) { _: DialogInterface?, _: Int ->
+            hideLoading()
+            hideRoomName()
+            providesConnectionDialog(
+                requireContext(),
+                {
                     Nearby.getConnectionsClient(requireActivity())
                         .acceptConnection(endpointId, payloadCallback)
-                }
-                .setNegativeButton(
-                    android.R.string.cancel
-                ) { _: DialogInterface?, _: Int ->
-                    Nearby.getConnectionsClient(requireActivity()).rejectConnection(endpointId)
-                }
-                .setIcon(android.R.drawable.ic_dialog_alert)
+                },
+                { Nearby.getConnectionsClient(requireActivity()).rejectConnection(endpointId) },
+                info.authenticationDigits
+            )
                 .show()
         }
 
         override fun onConnectionResult(endpointId: String, result: ConnectionResolution) {
             if (result.status.isSuccess) {
                 opponentEndpointId = endpointId
-                sendHello()
+                sendListMessage()
                 connectionsClient.stopDiscovery()
                 connectionsClient.stopAdvertising()
             }
@@ -178,6 +186,7 @@ class SharingFragment : PermissionManager(PermissionsNeeded.NEARBY) {
     }
 
     private fun startConnection(name: String, id: String) {
+        showLoading()
         connectionsClient.requestConnection(
             name, id, connectionLifecycleCallback
         )
@@ -185,6 +194,7 @@ class SharingFragment : PermissionManager(PermissionsNeeded.NEARBY) {
 
     private val endpointDiscoveryCallback = object : EndpointDiscoveryCallback() {
         override fun onEndpointFound(endpointId: String, info: DiscoveredEndpointInfo) {
+            hideLoading()
             endpointList.add(Connection(info.endpointName, endpointId))
             endpointAdapter.submitList(endpointList)
             endpointAdapter.notifyItemInserted(endpointList.lastIndex)

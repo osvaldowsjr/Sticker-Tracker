@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.osvaldo.stickerstracker.data.model.Player
 import com.osvaldo.stickerstracker.data.repository.NationRepository
+import com.osvaldo.stickerstracker.utils.Constants.Companion.SMOOTHING_DURATION
 import com.osvaldo.stickerstracker.utils.camera.SmoothedMutableLiveData
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -16,8 +17,8 @@ class SwapViewModel(
 
     private lateinit var friendList: MutableList<Player>
 
-    val resultList = SmoothedMutableLiveData<List<Player>>(50L)
-    val repeatedList = SmoothedMutableLiveData<List<Player>>(50L)
+    val resultList = SmoothedMutableLiveData<List<Player>>(SMOOTHING_DURATION)
+    val repeatedList = SmoothedMutableLiveData<List<Player>>(SMOOTHING_DURATION)
     val allNations = repository.allNation
 
     fun startFriendList(list: MutableList<Player>) {

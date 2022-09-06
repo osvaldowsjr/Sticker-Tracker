@@ -11,6 +11,7 @@ import com.osvaldo.stickerstracker.data.model.getFlag
 import com.osvaldo.stickerstracker.data.repository.NationRepository
 import com.osvaldo.stickerstracker.ui.cameraScan.CameraFunctions.Companion.DESIRED_HEIGHT_CROP_PERCENT
 import com.osvaldo.stickerstracker.ui.cameraScan.CameraFunctions.Companion.DESIRED_WIDTH_CROP_PERCENT
+import com.osvaldo.stickerstracker.utils.Constants.Companion.SMOOTHING_DURATION
 import com.osvaldo.stickerstracker.utils.camera.SmoothedMutableLiveData
 import com.osvaldo.stickerstracker.utils.removeSpaces
 import kotlinx.coroutines.CoroutineDispatcher
@@ -83,7 +84,4 @@ class CameraViewModel(
         }
     }
 
-    companion object {
-        private const val SMOOTHING_DURATION = 50L
-    }
 }

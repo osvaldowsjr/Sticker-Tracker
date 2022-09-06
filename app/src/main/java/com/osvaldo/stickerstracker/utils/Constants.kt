@@ -27,3 +27,9 @@ class Permissions {
         val CAMERA = arrayOf(Manifest.permission.CAMERA)
     }
 }
+
+class Constants {
+    companion object{
+        const val SMOOTHING_DURATION = 50L
+    }
+}

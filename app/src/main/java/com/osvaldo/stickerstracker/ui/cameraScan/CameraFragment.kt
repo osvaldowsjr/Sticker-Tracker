@@ -42,8 +42,6 @@ class CameraFragment : CameraFunctions() {
 
         binding.buttonStop.setOnClickListener { stopCamera() }
         binding.toolbar.apply {
-            setLastIconVisibility(View.GONE)
-            setFirstIconVisibility(View.GONE)
             setBackIconOnClickListener {
                 requireActivity().onBackPressedDispatcher.onBackPressed()
             }

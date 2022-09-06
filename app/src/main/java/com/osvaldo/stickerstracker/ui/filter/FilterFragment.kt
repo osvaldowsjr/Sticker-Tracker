@@ -34,11 +34,11 @@ class FilterFragment : Fragment(R.layout.filter_fragment) {
             setBackIconOnClickListener {
                 requireActivity().onBackPressedDispatcher.onBackPressed()
             }
-            setFirstIconVisibility(View.GONE)
-            setLastIconVisibility(View.VISIBLE)
             setLastIconOnClickListener {
                 findNavController().navigate(FilterFragmentDirections.actionFilterFragmentToSharingFragment())
             }
+            setLastIconVisibility(View.VISIBLE)
+            setLastIconDrawable(R.drawable.icon_share)
         }
     }
 

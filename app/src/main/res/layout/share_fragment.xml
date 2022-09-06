@@ -7,13 +7,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <com.osvaldo.stickerstracker.ui.customViews.CustomToolbar
+        android:id="@+id/toolbar"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
     <EditText
         android:id="@+id/myNick"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="40dp"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:hint="@string/name_edit_text"
+        android:singleLine="true"
+        android:layout_marginTop="20dp"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/endpoints"
@@ -22,16 +30,52 @@
         android:layout_marginHorizontal="20dp"
         android:layout_marginBottom="20dp"
         android:layout_marginTop="10dp"
-        app:layout_constraintBottom_toTopOf="@+id/shareList"
+        app:layout_constraintBottom_toTopOf="@+id/openRoom"
         app:layout_constraintTop_toBottomOf="@id/myNick"
-        tools:layout_editor_absoluteX="20dp" />
+        />
+
+    <TextView
+        android:id="@+id/roomOpened"
+        android:layout_width="wrap_content"
+        style="@style/BigText"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:visibility="gone"
+        tools:text = "Sala aberta com o nome: Junior"
+        app:layout_constraintBottom_toBottomOf="@+id/endpoints"
+        app:layout_constraintEnd_toEndOf="@+id/endpoints"
+        app:layout_constraintStart_toStartOf="@+id/endpoints"
+        app:layout_constraintTop_toTopOf="@+id/endpoints"/>
+
+    <ProgressBar
+        android:id="@+id/loading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:progressTint="@color/text_color_value"
+        android:indeterminateTintMode="src_atop"
+        android:visibility="gone"
+        android:indeterminateTint="@color/text_color_value"
+        app:layout_constraintBottom_toBottomOf="@+id/endpoints"
+        app:layout_constraintEnd_toEndOf="@+id/endpoints"
+        app:layout_constraintStart_toStartOf="@+id/endpoints"
+        app:layout_constraintTop_toTopOf="@+id/endpoints" />
 
     <Button
-        android:id="@+id/shareList"
+        android:id="@+id/openRoom"
+        android:layout_marginHorizontal="20dp"
+        android:layout_width="match_parent"
+        android:layout_marginBottom="10dp"
+        android:text="@string/open_room"
+        app:layout_constraintBottom_toTopOf="@id/enterRoom"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/enterRoom"
         android:layout_marginHorizontal="20dp"
         android:layout_width="match_parent"
         android:layout_marginBottom="20dp"
-        android:text="@string/search_albums"
+        android:text="@string/enter_room"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_height="wrap_content" />
 

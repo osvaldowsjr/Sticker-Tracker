@@ -6,6 +6,10 @@
         <item name="android:layout_height">wrap_content</item>
     </style>
 
+    <style name="BigText" parent="TextStyle">
+        <item name="android:textSize">30sp</item>
+    </style>
+
     <style name="SmallText" parent="TextStyle">
         <item name="android:textColor">?attr/textColor</item>
         <item name="android:textSize">20sp</item>

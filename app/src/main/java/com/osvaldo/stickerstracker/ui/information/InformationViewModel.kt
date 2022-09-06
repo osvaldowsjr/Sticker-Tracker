@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.osvaldo.stickerstracker.data.model.Nation
 import com.osvaldo.stickerstracker.data.repository.NationRepository
+import com.osvaldo.stickerstracker.utils.Constants.Companion.SMOOTHING_DURATION
 import com.osvaldo.stickerstracker.utils.camera.SmoothedMutableLiveData
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -20,6 +21,7 @@ class InformationViewModel(
     val albumCompletion = SmoothedMutableLiveData<Pair<Int, Int>>(SMOOTHING_DURATION)
     val nationMostObtained = SmoothedMutableLiveData<List<Nation>>(SMOOTHING_DURATION)
     val nationLeastObtained = SmoothedMutableLiveData<List<Nation>>(SMOOTHING_DURATION)
+    val amountRepeated = SmoothedMutableLiveData<Int>(SMOOTHING_DURATION)
 
     fun getAlbumCompletion() {
         viewModelScope.launch(coroutineDispatcher) {
@@ -47,14 +49,18 @@ class InformationViewModel(
         }
     }
 
+    fun getRepeated(){
+        viewModelScope.launch(coroutineDispatcher){
+            amountRepeated.postValue(allNations.value?.let {
+                repository.getAmountRepeated(it)
+            })
+        }
+    }
+
     fun providePercentage(pair: Pair<Int, Int>): String {
         val value = (pair.first.toDouble() / pair.second) * 100.0
         val df = DecimalFormat("#.##")
         df.roundingMode = RoundingMode.FLOOR
         return "${df.format(value)}%"
-    }
-
-    companion object {
-        private const val SMOOTHING_DURATION = 50L
     }
 }

@@ -1,6 +1,5 @@
 package com.osvaldo.stickerstracker.ui.information
 
-import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.osvaldo.stickerstracker.R
@@ -23,8 +22,6 @@ class InformationFragment : Fragment(R.layout.information_fragment) {
     private fun setupToolbar() {
         binding.toolbar.apply {
             setBackIconOnClickListener { requireActivity().onBackPressedDispatcher.onBackPressed() }
-            setLastIconVisibility(View.GONE)
-            setFirstIconVisibility(View.GONE)
         }
     }
 
@@ -54,16 +51,19 @@ class InformationFragment : Fragment(R.layout.information_fragment) {
             infoViewModel.getAlbumCompletion()
             infoViewModel.getMostObtained()
             infoViewModel.getLeastObtained()
+            infoViewModel.getRepeated()
         }
         infoViewModel.albumCompletion.observe(viewLifecycleOwner) {
             binding.stickerRatio.text =
                 getString(R.string.sticker_completion, it.first.toString(), it.second.toString())
             binding.progressBar.max = it.second
             binding.progressBar.progress = it.first
-
             binding.percentCompletion.text =
                 getString(R.string.percentage, infoViewModel.providePercentage(it))
+        }
 
+        infoViewModel.amountRepeated.observe(viewLifecycleOwner){
+            binding.amountRepeated.text = it.toString()
         }
     }
 }
