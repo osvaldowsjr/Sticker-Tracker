@@ -117,7 +117,7 @@ class NationRepositoryImpl(private val dataSource: NationDataSource) : NationRep
 
     private fun fixStickerStructure(sticker: String): String {
         val nationString = sticker.substring(0, 3).trim()
-        var numberString = sticker.substring(3).trim().removePrefix("0")
+        val numberString = sticker.substring(3).removePrefix("0").trim()
         return "$nationString $numberString"
     }
 
@@ -144,9 +144,9 @@ class NationRepositoryImpl(private val dataSource: NationDataSource) : NationRep
 
     override suspend fun indexPlayerToAdd(nationString: String): Int = withContext(Dispatchers.IO) {
         if (nationString.contains("FWC")) {
-            nationString.substring(3).toIntOrNull() ?: Int.MIN_VALUE
+            nationString.substring(3).trim().toIntOrNull() ?: Int.MIN_VALUE
         } else {
-            nationString.substring(3).toIntOrNull()?.minus(1) ?: Int.MIN_VALUE
+            nationString.substring(3).trim().toIntOrNull()?.minus(1) ?: Int.MIN_VALUE
         }
     }
 
