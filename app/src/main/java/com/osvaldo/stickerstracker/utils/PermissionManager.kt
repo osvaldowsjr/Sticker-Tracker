@@ -9,7 +9,7 @@ import com.osvaldo.stickerstracker.ui.customViews.DialogProvider
 
 abstract class PermissionManager(private val permissionsNeeded: PermissionsNeeded) : Fragment() {
 
-    abstract fun isGaranted()
+    abstract fun isGranted()
 
     enum class PermissionsNeeded {
         NEARBY,
@@ -32,10 +32,10 @@ abstract class PermissionManager(private val permissionsNeeded: PermissionsNeede
         registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { map ->
             map.forEach {
                 val permission = it.key
-                val isGaranted = it.value
+                val isGranted = it.value
                 when {
-                    isGaranted -> {
-                        isGaranted()
+                    isGranted -> {
+                        isGranted()
                     }
                     ActivityCompat.shouldShowRequestPermissionRationale(
                         requireActivity(),

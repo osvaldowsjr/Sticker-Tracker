@@ -71,7 +71,7 @@ class CameraFragment : CameraFunctions() {
         }
     }
 
-    override fun isGaranted() {
+    override fun isGranted() {
         viewFinder.post {
             displayId = viewFinder.display.displayId
             setUpCamera(viewFinder)

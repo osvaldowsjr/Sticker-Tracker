@@ -32,7 +32,7 @@ class SharingFragment : PermissionManager(PermissionsNeeded.NEARBY) {
     private lateinit var connectionsClient: ConnectionsClient
     private val sharingViewModel: SharingViewModel by viewModel()
 
-    override fun isGaranted() {
+    override fun isGranted() {
         // Do nothing
     }
 
